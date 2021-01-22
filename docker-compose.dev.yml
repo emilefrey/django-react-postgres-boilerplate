@@ -1,45 +1,78 @@
 version: "3.7"
 
 services:
-  django:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
+  backend:
+    build: ./backend
     volumes:
-      - ./backend/:/webserver/ # maps host directory to internal container directory (this is used for local development)
-    expose:
-      - 8000
+      - ./backend:/app/backend
+    ports:
+      - "8000:8000"
     env_file:
       - ./backend/.env
-    command:  python manage.py runserver 0.0.0.0:8000
-    ports: 
-      - 8000:8000
-      - 8888:8888
-    depends_on:
+    stdin_open: true
+    tty: true
+    env_file: 
+      - ./backend/.env
+    # environment:
+    #   - DJANGO_SETTINGS_MODULE=mainapp.settings
+    command: python manage.py runserver 0.0.0.0:8000
+    depends_on: 
       - db
+  # django:
+  #   build:
+  #     context: ./backend
+  #     dockerfile: Dockerfile
+  #   volumes:
+  #     - ./backend/:/webserver/ # maps host directory to internal container directory (this is used for local development)
+  #   expose:
+  #     - 8000
+  #   env_file:
+  #     - ./backend/.env
+  #   command:  python manage.py runserver 0.0.0.0:8000
+  #   ports: 
+  #     - 8000:8000
+  #     - 8888:8888
+  #   depends_on:
+  #     - db
   db:
     image: postgres:12.0-alpine
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     env_file:
       - ./postgres/.env
-  react:
-    build:
+  frontend:
+    build: 
       context: ./frontend
       dockerfile: Dockerfile.local
-    volumes:
-      - ./frontend/:/app
-      - /app/node_modules/
-    expose:
-      - 3000
-    ports:
-      - 3000:3000
     stdin_open: true
-    env_file:
-      - .env
-    command: npm start
+    volumes:
+      - ./frontend:/app
+      # One-way volume to use node_modules from inside image
+      - /app/node_modules
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
     depends_on:
-      - django
+      - backend
+    command: npm start
+  # react:
+  #   build:
+  #     context: ./frontend
+  #     dockerfile: Dockerfile.local
+  #   volumes:
+  #     - ./frontend/:/app
+  #     - /app/node_modules/
+  #   expose:
+  #     - 3000
+  #   ports:
+  #     - 3000:3000
+  #   stdin_open: true
+  #   env_file:
+  #     - .env
+  #   command: npm start
+  #   depends_on:
+  #     - django
 
   # nginx:
   #   restart: always

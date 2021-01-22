@@ -1,28 +1,59 @@
-###########
-# BUILDER #
-###########
+# ###########
+# # BUILDER #
+# ###########
 
-# pull official base image
-FROM python:3.7.9-slim-stretch as builder
+# # pull official base image
+# FROM python:3.7.9-slim-stretch as builder
 
-# set work directory 
-WORKDIR /usr/src/app
+# # set work directory 
+# WORKDIR /usr/src/app
 
-# set environment variables 
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
+# # set environment variables 
+# ENV PYTHONDONTWRITEBYTECODE 1
+# ENV PYTHONUNBUFFERED 1
 
-# install dependencies
-COPY ./requirements.txt .
-RUN pip wheel --no-cache-dir --no-deps --wheel-dir /usr/src/app/wheels -r requirements.txt
+# # install dependencies
+# COPY ./requirements.txt .
+# RUN pip wheel --no-cache-dir --no-deps --wheel-dir /usr/src/app/wheels -r requirements.txt
 
 
-#########
-# FINAL #
-#########
+# #########
+# # FINAL #
+# #########
 
-# pull official base image
-FROM python:3.7.9-slim-stretch
+# # pull official base image
+# FROM python:3.7.9-slim-stretch
+
+# # installing netcat (nc) since we are using that to listen to postgres server in entrypoint.sh
+# RUN apt-get update && apt-get install -y --no-install-recommends netcat && \
+#     apt-get autoremove -y && \
+#     apt-get clean && \
+#     rm -rf /var/lib/apt/lists/*
+
+# # install dependencies
+# COPY --from=builder /usr/src/app/wheels /wheels
+# COPY --from=builder /usr/src/app/requirements.txt .
+# RUN pip install --no-cache /wheels/*
+
+# # set work directory
+# WORKDIR /usr/src/app
+
+# # copy entrypoint.sh
+# COPY ./entrypoint.sh /usr/src/app/entrypoint.sh
+
+# # copy our django project
+# COPY ./django_app .
+
+# # run entrypoint.sh
+# RUN chmod +x /usr/src/app/entrypoint.sh
+# ENTRYPOINT ["/usr/src/app/entrypoint.sh"]
+
+
+# Use an official Python runtime as a parent image
+FROM python:3.8
+
+# Adding backend directory to make absolute filepaths consistent across services
+WORKDIR /app/backend
 
 # installing netcat (nc) since we are using that to listen to postgres server in entrypoint.sh
 RUN apt-get update && apt-get install -y --no-install-recommends netcat && \
@@ -30,20 +61,22 @@ RUN apt-get update && apt-get install -y --no-install-recommends netcat && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# install dependencies
-COPY --from=builder /usr/src/app/wheels /wheels
-COPY --from=builder /usr/src/app/requirements.txt .
-RUN pip install --no-cache /wheels/*
+# Install Python dependencies
+COPY requirements.txt /app/backend
+RUN pip install --upgrade pip -r requirements.txt
 
-# set work directory
-WORKDIR /usr/src/app
+# Add the rest of the code
+COPY . /app/backend
 
-# copy entrypoint.sh
-COPY ./entrypoint.sh /usr/src/app/entrypoint.sh
+# Make port 8000 available for the app
+EXPOSE 8000
 
-# copy our django project
-COPY ./django_app .
+# Be sure to use 0.0.0.0 for the host within the Docker container,
+# otherwise the browser won't be able to find it
+CMD python manage.py runserver 0.0.0.0:8000
 
+# # copy entrypoint.sh
+COPY ./entrypoint.sh /app/entrypoint.sh
 # run entrypoint.sh
-RUN chmod +x /usr/src/app/entrypoint.sh
-ENTRYPOINT ["/usr/src/app/entrypoint.sh"]
+RUN chmod +x /app/entrypoint.sh
+ENTRYPOINT ["/app/entrypoint.sh"]

@@ -1,16 +1,35 @@
+# FROM node:12.18.3-alpine3.9
+
+# # set working directory
+# WORKDIR /app/react_app
+
+# # add `/usr/src/app/node_modules/.bin` to $PATH
+# ENV PATH /app/node_modules/.bin:$PATH
+
+# # install app dependencies
+# COPY ./react_app/package.json .
+# COPY ./react_app/package-lock.json .
+# RUN npm install react-scripts@3.4.1 -g
+# RUN npm install
+
+# # copy the client directory into the container
+# COPY . .
+
+
+# Use an official node runtime as a parent image
+# FROM node:14
 FROM node:12.18.3-alpine3.9
 
-# set working directory
-WORKDIR /app/react_app
+WORKDIR /app/
 
-# add `/usr/src/app/node_modules/.bin` to $PATH
-ENV PATH /app/node_modules/.bin:$PATH
+# Install dependencies
+COPY package.json package-lock.json /app/
 
-# install app dependencies
-COPY ./react_app/package.json .
-COPY ./react_app/package-lock.json .
-RUN npm install react-scripts@3.4.1 -g
 RUN npm install
 
-# copy the client directory into the container
-COPY . .
+# Add rest of the client code
+COPY . /app/
+
+EXPOSE 3000
+
+CMD npm start
