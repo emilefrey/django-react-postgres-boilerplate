@@ -1,1 +1,1 @@
-# django-react-postgres-nginx-docker
+Boilerplate
