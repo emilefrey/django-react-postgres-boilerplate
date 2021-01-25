@@ -1,1 +1,13 @@
-Boilerplate
+**To-do:**
+- Basic Backend Testing
+- Frontend Testing (React Testing Library)
+- Readme (setup and how to remove remnants of dummy stuff)
+- Material UI Theme
+- Auto Logout with Failed Request
+- Auto Generation of Left Nav based on Routes
+- Fix NGINX Docker Compose
+- Create Axios Interfaces (like in TS)
+- Password Reset Email?
+- Scripting?
+- Are we in good shape to deploy?
+- Update and Pin versions (remove anything unused)
