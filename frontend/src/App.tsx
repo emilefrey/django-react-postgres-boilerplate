@@ -19,7 +19,7 @@ function App(props: AppProps) {
 
   React.useEffect(() => {
     props.setAuthenticatedIfRequired();
-  }, []);
+  }, [props]);
 
   return (
     <div className="App">

@@ -4,7 +4,7 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Login from "../components/Login/Login";
 import Home from "../components/Home";
 import PasswordUpdate from "../components/Login/PasswordUpdate";
-import PrivateRoute, { PrivateRouteProps } from './PrivateRoute'
+import PrivateRoute from './PrivateRoute'
 import { AppProps } from "../App";
 
 export default function Router(props: AppProps) {

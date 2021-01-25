@@ -1,9 +1,12 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { AppBar, Toolbar, Typography, Button, IconButton } from '@material-ui/core';
+import { AppBar, Toolbar, Typography, IconButton } from '@material-ui/core';
 import HomeIcon from '@material-ui/icons/Home';
 import { APP_NAME } from '../../settings'
 import { AppProps } from '../../App'
+import { AccountCircle } from '@material-ui/icons';
+import MenuItem from '@material-ui/core/MenuItem';
+import DropdownMenu from '../Layout/DropdownMenu';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,13 +28,19 @@ export default function TopBar(props: AppProps) {
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" className={classes.title}>
-            { APP_NAME }
+            {APP_NAME}
           </Typography>
           <IconButton aria-label="home page" color="inherit" href="/">
             <HomeIcon />
           </IconButton>
-          {props.isAuthenticated ? <Button color="inherit" href="/update_password">Update Password</Button> : null}
-          {props.isAuthenticated ? <Button color="inherit" onClick={() => props.logout()}>Logout</Button> : null}
+          {props.isAuthenticated && (
+            <DropdownMenu dropdownButtonIcon={<AccountCircle />}>
+              <div>
+                <MenuItem component='a' href='/update_password'>Change Password</MenuItem>
+                <MenuItem onClick={() => props.logout()}>Logout</MenuItem>
+              </div>
+            </DropdownMenu>
+          )}
         </Toolbar>
       </AppBar>
     </div>
