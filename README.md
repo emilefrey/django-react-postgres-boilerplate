@@ -2,7 +2,7 @@
 - [ ] Basic Backend Testing
 - [ ] Frontend Testing (React Testing Library)
 - [ ] Readme (setup and how to remove remnants of dummy stuff)
-- [ ] Material UI Theme
+- [x] Material UI Theme
 - [ ] Auto Logout with Failed Request
 - [ ] Auto Generation of Left Nav based on Routes
 - [x] Fix NGINX Docker Compose

@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
 // ########################################################
 const IrisSlider = withStyles({
     root: {
-        color: '#751E66',
+        color: '#982E66',
     },
     valueLabel: {
         left: 'calc(-50% -2)',
