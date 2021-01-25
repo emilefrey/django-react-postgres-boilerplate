@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Dispatch, useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -13,6 +13,7 @@ import { connect } from 'react-redux';
 import * as actions from '../../store/authActions';
 
 import { useHistory, useLocation } from "react-router-dom";
+import { AppProps } from '../../App';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -35,13 +36,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Login(props) {
+interface LocationState {
+  from: {
+    pathname: string;
+  };
+}
+
+
+function Login(props: AppProps) {
   const classes = useStyles();
-  const [username, setuserName] = React.useState(null);
-  const [password, setPassword] = React.useState(null);
+  const [username, setuserName] = useState("");
+  const [password, setPassword] = useState("");
 
   let history = useHistory();
-  let location = useLocation();
+  let location = useLocation<LocationState>();
   let { from } = location.state || { from: { pathname: "/" } };
 
   React.useEffect(() => {
@@ -49,7 +57,7 @@ function Login(props) {
   });
 
 
-  const handleFormFieldChange = (event) => {
+  const handleFormFieldChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     switch (event.target.id) {
       case 'username': setuserName(event.target.value); break;
       case 'password': setPassword(event.target.value); break;
@@ -58,7 +66,7 @@ function Login(props) {
 
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     props.onAuth(username, password);
   }
@@ -114,9 +122,9 @@ function Login(props) {
 }
 
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch: Dispatch<any>) => {
   return {
-    onAuth: (username, password) => dispatch(actions.authLogin(username, password))
+    onAuth: (username: string, password: string) => dispatch(actions.authLogin(username, password))
   }
 }
 

@@ -5,12 +5,14 @@ import {connect} from 'react-redux';
 import * as actions from './store/authActions';
 import { PrivateRouteProps } from './routes/PrivateRoute';
 
-interface AuthProps {
+export interface AuthProps {
   logout: Function
   setAuthenticatedIfRequired: Function
+  onAuth: Function
+  token: string
 }
 
-interface AppProps extends AuthProps, PrivateRouteProps {}
+export interface AppProps extends AuthProps, PrivateRouteProps {}
 
 function App(props: AppProps) {
 

@@ -1,10 +1,11 @@
 import React from 'react'
-import axios from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 import * as settings from '../settings';
 
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import { Container, Grid, Paper, Typography, Slider, Button } from '@material-ui/core';
+import { AuthProps } from '../App';
 
 // ########################################################
 // Material UI inline styles
@@ -67,7 +68,7 @@ const marks = [{ value: 0 }, { value: 10 }];
 // ########################################################
 // The main Home component returned by this Module
 // ########################################################
-function Home(props) {
+function Home(props: AuthProps) {
     // Material UI Classes 
     const classes = useStyles();
 
@@ -82,7 +83,7 @@ function Home(props) {
     const [prediction, setPrediction] = React.useState(null)
 
     // Function to update the Dimensions state upon slider value change
-    const handleSliderChange = name => (event, newValue) => {
+    const handleSliderChange = (name: any) => (event: any, newValue: any) => {
         setDimensions(
             {
                 ...dimensions,
@@ -92,29 +93,29 @@ function Home(props) {
     };
 
     // Function to make the predict API call and update the state variable - Prediction 
-    const handlePredict = event => {
+    const handlePredict = (event: any) => {
         // Submit Iris Flower measured dimensions as form data
         let irisFormData = new FormData();
-        irisFormData.append("sepal length (cm)", dimensions.sepal_length);
-        irisFormData.append("sepal width (cm)", dimensions.sepal_width);
-        irisFormData.append("petal length (cm)", dimensions.petal_length);
-        irisFormData.append("petal width (cm)", dimensions.petal_width);
+        irisFormData.append("sepal length (cm)", dimensions.sepal_length.toString());
+        irisFormData.append("sepal width (cm)", dimensions.sepal_width.toString());
+        irisFormData.append("petal length (cm)", dimensions.petal_length.toString());
+        irisFormData.append("petal width (cm)", dimensions.petal_width.toString());
 
         //Axios variables required to call the predict API
         let headers = { 'Authorization': `Token ${props.token}` };
         let url = settings.API_SERVER + '/api/predict/';
-        let method = 'post';
-        let config = { headers, method, url, data: irisFormData };
+        const method = 'POST';
+        let config: AxiosRequestConfig = { headers, method, url, data: irisFormData };
 
         //Axios predict API call
         axios(config).then(
-            res => {setPrediction(res.data["Prediced Iris Species"])
+            (res: any) => {setPrediction(res.data["Prediced Iris Species"])
             }).catch(
-                error => {alert(error)})
+                (error: string) => {alert(error)})
 
     }
 
-    function valuetext(value) {
+    function valuetext(value: any) {
         return `${value} cm`;
     }
 

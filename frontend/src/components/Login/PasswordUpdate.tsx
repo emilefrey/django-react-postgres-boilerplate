@@ -1,10 +1,11 @@
-import React from 'react';
-import axios from 'axios';
+import React, { useState } from 'react';
+import axios, { AxiosRequestConfig } from 'axios';
 import * as settings from '../../settings';
 
 import { makeStyles } from '@material-ui/core/styles';
 import { Avatar, Button, Container, CssBaseline, TextField, Typography } from '@material-ui/core';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
+import { AuthProps } from '../../App';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -30,13 +31,14 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function PasswordUpdate(props) {
-  const classes = useStyles();
-  const [new_password1, setNewPassword1] = React.useState(null);
-  const [new_password2, setNewPassword2] = React.useState(null);
-  const [success, setSuccess] = React.useState(false);
 
-  const handleFormFieldChange = (event) => {
+function PasswordUpdate(props: AuthProps) {
+  const classes = useStyles();
+  const [new_password1, setNewPassword1] = useState("");
+  const [new_password2, setNewPassword2] = useState("");
+  const [success, setSuccess] = useState(false);
+
+  const handleFormFieldChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSuccess(false);
     switch (event.target.id) {
       case 'new_password1': setNewPassword1(event.target.value); break;
@@ -46,23 +48,23 @@ function PasswordUpdate(props) {
 
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (new_password1 !== new_password2) {
       alert("Passwords don't match")
     } else {
       let headers = { 'Authorization': `Token ${props.token}` };
-      let method = 'post';
+      const method = 'POST';
       let url = settings.API_SERVER + '/api/auth/update_password/';
       let passwordFormData = new FormData();
       passwordFormData.append("new_password1", new_password1);
       passwordFormData.append("new_password2", new_password2);
-      let config = { headers, method, url, data: passwordFormData};
+      let config: AxiosRequestConfig = { headers, method, url, data: passwordFormData};
       //Axios update_password API call
-      axios(config).then(res => {
+      axios(config).then((res: any) => {
         setSuccess(true);
       }).catch(
-        error => {
+        (error: string) => {
           alert(error)
         })
     }
