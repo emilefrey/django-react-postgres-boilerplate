@@ -6,7 +6,7 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     volumes:
-      - django_static_volume:/usr/src/app/static
+      - django_static_volume:/app/static
     expose:
       - 8000
     env_file:
@@ -27,7 +27,7 @@ services:
       args:
         - API_SERVER=${ENV_API_SERVER}
     volumes:
-      - react_static_volume:/usr/src/app/build/static
+      - react_static_volume:/app/build/static
     expose:
       - 3000
     env_file:
@@ -40,8 +40,8 @@ services:
     restart: always
     build: ./nginx
     volumes:
-      - django_static_volume:/usr/src/app/django_files/static
-      - react_static_volume:/usr/src/app/react_files/static
+      - django_static_volume:/app/django_files/static
+      - react_static_volume:/app/react_files/static
     ports:
       - 80:80
     depends_on:
