@@ -11,3 +11,4 @@
 - [ ] Scripting?
 - [ ] Are we in good shape to deploy?
 - [ ] Update and Pin versions (remove anything unused)
+- [x] fix django admin not serving css files on admin page
