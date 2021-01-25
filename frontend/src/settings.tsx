@@ -5,7 +5,8 @@ switch (process.env.NODE_ENV) {
         API_SERVER_VAL = 'http://localhost:8000';
         break;
     case 'production':
-        API_SERVER_VAL = process.env.REACT_APP_API_SERVER;
+        if (process.env.REACT_APP_API_SERVER)
+            API_SERVER_VAL = process.env.REACT_APP_API_SERVER;
         break;
     default:
         API_SERVER_VAL = 'http://localhost:8000';
@@ -15,3 +16,5 @@ switch (process.env.NODE_ENV) {
 export const API_SERVER = API_SERVER_VAL;
 
 export const SESSION_DURATION = 5*3600*1000;
+
+export const APP_NAME = "IRIS SPECIES PREDICTOR"

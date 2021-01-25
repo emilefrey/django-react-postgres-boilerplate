@@ -1,6 +1,6 @@
 import React from 'react';
-import Urls from './Urls';
-import Layout from './components/Layout';
+import Router from './routes/Router';
+import Layout from './components/Layout/Layout';
 import {connect} from 'react-redux';
 import * as actions from './store/authActions';
 
@@ -14,7 +14,7 @@ function App(props) {
   return (
     <div className="App">
       <Layout {...props}>
-         <Urls {...props}/>
+         <Router {...props}/>
       </Layout>
     </div>
   );
