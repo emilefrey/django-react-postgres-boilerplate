@@ -14,8 +14,7 @@ import * as actions from '../../auth/authActions';
 
 import { useHistory, useLocation } from "react-router-dom";
 import { AppProps } from '../../App';
-import MuiAlert from '@material-ui/lab/Alert';
-
+import validationErrorMessages from '../../helpers/validationErrorMessages'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -48,7 +47,6 @@ function Login(props: AppProps) {
   const classes = useStyles();
   const [username, setuserName] = useState("");
   const [password, setPassword] = useState("");
-  const [validationErrors, setValidationErrors] = useState<string[]>([])
 
   let history = useHistory();
   let location = useLocation<LocationState>();
@@ -58,31 +56,18 @@ function Login(props: AppProps) {
     if (props.isAuthenticated) { history.replace(from) };
   });
 
-  useEffect(() => {
-    setValidationErrors(props.error.response.data.non_field_errors)
-  }, [props.error])
-
-
   const handleFormFieldChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     switch (event.target.id) {
       case 'username': setuserName(event.target.value); break;
       case 'password': setPassword(event.target.value); break;
       default: return null;
     }
-
   };
 
   const handleSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     props.onAuth(username, password);
   }
-
-  const validationErrorMessages = (
-		validationErrors.map((value, index) => (
-			<MuiAlert key={index} elevation={6} variant="filled" severity="warning" id="Validation-Message">{value}</MuiAlert>
-		))
-	);
-
 
   return (
     <Container component="main" maxWidth="xs">
@@ -119,6 +104,7 @@ function Login(props: AppProps) {
             autoComplete="current-password"
             onChange={handleFormFieldChange}
           />
+          {validationErrorMessages(props.error ? props.error.response.data.non_field_errors : [])}
           <Button
             type="submit"
             fullWidth
@@ -133,7 +119,6 @@ function Login(props: AppProps) {
     </Container>
   );
 }
-
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => {
   return {

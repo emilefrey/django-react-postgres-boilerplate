@@ -1,11 +1,13 @@
-import React, { Dispatch } from 'react';
+import React, { Dispatch, useContext } from 'react';
 import Router from './routes/Router';
 import Layout from './components/Layout/Layout';
 import { connect } from 'react-redux';
 import * as actions from './auth/authActions';
 import { PrivateRouteProps } from './routes/PrivateRoute';
-import { ThemeProvider } from '@material-ui/core';
+import { Snackbar, ThemeProvider } from '@material-ui/core';
 import { theme } from './Theme'
+import { AlertContext } from './contexts/AlertContext';
+import Alert from '@material-ui/lab/Alert';
 export interface AuthProps {
   logout: Function
   setAuthenticatedIfRequired: Function
@@ -25,6 +27,8 @@ export interface AppProps extends AuthProps, PrivateRouteProps { }
 
 function App(props: AppProps) {
 
+  const { alertType, openAlert, alertMessage, handleAlertClose } = useContext(AlertContext);
+
   React.useEffect(() => {
     props.setAuthenticatedIfRequired();
   }, [props]);
@@ -35,6 +39,11 @@ function App(props: AppProps) {
         <Layout {...props}>
           <Router {...props} />
         </Layout>
+        <Snackbar id="appAlertSnackbar" open={openAlert} autoHideDuration={6000} onClose={handleAlertClose}>
+          <Alert onClose={handleAlertClose} severity={alertType}>
+            {alertMessage}
+          </Alert>
+        </Snackbar>
       </ThemeProvider>
     </div>
   );
