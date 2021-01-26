@@ -11,6 +11,14 @@ export interface AuthProps {
   setAuthenticatedIfRequired: Function
   onAuth: Function
   token: string
+  error: {
+    message: string
+    response: {
+      data: {
+        non_field_errors: string[]
+      }
+    }
+  }
 }
 
 export interface AppProps extends AuthProps, PrivateRouteProps { }
@@ -34,7 +42,15 @@ function App(props: AppProps) {
 
 interface MapStateToPropsInterface {
   auth: {
-    token: string
+    token: string,
+    error: {
+      message: string
+      response: {
+        data: {
+          non_field_errors: string[]
+        }
+      }
+    }
   }
 }
 
@@ -42,7 +58,8 @@ interface MapStateToPropsInterface {
 const mapStateToProps = (state: MapStateToPropsInterface) => {
   return {
     isAuthenticated: state.auth.token !== null && typeof state.auth.token !== 'undefined',
-    token: state.auth.token
+    token: state.auth.token,
+    error: state.auth.error
   }
 }
 

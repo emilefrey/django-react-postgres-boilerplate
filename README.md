@@ -4,11 +4,15 @@
 - [ ] Readme (setup and how to remove remnants of dummy stuff)
 - [x] Material UI Theme
 - [ ] Auto Logout with Failed Request
-- [ ] Auto Generation of Left Nav based on Routes
+- [ ] Auto Generation of Left Nav based on Routes?
 - [x] Fix NGINX Docker Compose
 - [ ] Create Axios Interfaces (like in TS)
 - [ ] Password Reset Email?
-- [ ] Scripting?
+- [ ] Scripting for setup?
 - [ ] Are we in good shape to deploy?
 - [ ] Update and Pin versions (remove anything unused)
 - [x] fix django admin not serving css files on admin page
+- [ ] error context
+- [ ] show password errors
+- [ ] loading icon on login
+- [ ] forgot password

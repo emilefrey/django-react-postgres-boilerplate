@@ -6,6 +6,7 @@ import Popper from '@material-ui/core/Popper';
 import MenuList from '@material-ui/core/MenuList';
 import { Children } from '../../interfaces/Children'
 import { IconButton } from '@material-ui/core';
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 
 interface DropdownMenuProps {
   children: Children
@@ -54,6 +55,7 @@ export default function DropdownMenu(props: DropdownMenuProps) {
         ref={anchorRef}
       >
         {props.dropdownButtonIcon}
+        <ArrowDropDownIcon />
       </IconButton>
       <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal>
         {({ TransitionProps, placement }) => (

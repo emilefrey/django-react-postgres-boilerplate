@@ -1,4 +1,4 @@
-import React, { Dispatch, useState } from 'react';
+import React, { Dispatch, useState, useEffect } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -14,6 +14,7 @@ import * as actions from '../../auth/authActions';
 
 import { useHistory, useLocation } from "react-router-dom";
 import { AppProps } from '../../App';
+import MuiAlert from '@material-ui/lab/Alert';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -47,14 +48,19 @@ function Login(props: AppProps) {
   const classes = useStyles();
   const [username, setuserName] = useState("");
   const [password, setPassword] = useState("");
+  const [validationErrors, setValidationErrors] = useState<string[]>([])
 
   let history = useHistory();
   let location = useLocation<LocationState>();
   let { from } = location.state || { from: { pathname: "/" } };
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (props.isAuthenticated) { history.replace(from) };
   });
+
+  useEffect(() => {
+    setValidationErrors(props.error.response.data.non_field_errors)
+  }, [props.error])
 
 
   const handleFormFieldChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -70,6 +76,13 @@ function Login(props: AppProps) {
     e.preventDefault();
     props.onAuth(username, password);
   }
+
+  const validationErrorMessages = (
+		validationErrors.map((value, index) => (
+			<MuiAlert key={index} elevation={6} variant="filled" severity="warning" id="Validation-Message">{value}</MuiAlert>
+		))
+	);
+
 
   return (
     <Container component="main" maxWidth="xs">
