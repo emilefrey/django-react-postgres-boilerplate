@@ -10,7 +10,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
 import { connect } from 'react-redux';
-import * as actions from '../../store/authActions';
+import * as actions from '../../auth/authActions';
 
 import { useHistory, useLocation } from "react-router-dom";
 import { AppProps } from '../../App';

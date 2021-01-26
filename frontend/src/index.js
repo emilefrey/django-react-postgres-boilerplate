@@ -6,7 +6,7 @@ import * as serviceWorker from './serviceWorker';
 import { combineReducers, createStore, compose, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
-import authReducer from './store/authReducer';
+import authReducer from './auth/authReducer';
 
 const reducer = combineReducers({ auth: authReducer }); // Using Combine Reducers here although only one reducer is present.
 // Official explaination here: https://react-redux.js.org/using-react-redux/connect-mapstate#mapstatetoprops-will-not-run-if-the-store-state-is-the-same

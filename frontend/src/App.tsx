@@ -2,7 +2,7 @@ import React, { Dispatch } from 'react';
 import Router from './routes/Router';
 import Layout from './components/Layout/Layout';
 import { connect } from 'react-redux';
-import * as actions from './store/authActions';
+import * as actions from './auth/authActions';
 import { PrivateRouteProps } from './routes/PrivateRoute';
 import { ThemeProvider } from '@material-ui/core';
 import { theme } from './Theme'
