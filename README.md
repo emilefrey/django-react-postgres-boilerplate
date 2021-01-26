@@ -3,16 +3,13 @@
 - [ ] Frontend Testing (React Testing Library)
 - [ ] Readme (setup and how to remove remnants of dummy stuff)
 - [x] Material UI Theme
-- [ ] Auto Logout with Failed Request
+- [ ] Auto redirect to login with Failed Request
 - [ ] Auto Generation of Left Nav based on Routes?
 - [x] Fix NGINX Docker Compose
-- [ ] Create Axios Interfaces (like in TS)
-- [ ] Password Reset Email?
-- [ ] Scripting for setup?
-- [ ] Are we in good shape to deploy?
+- [ ] Axios Interfaces
 - [ ] Update and Pin versions (remove anything unused)
 - [x] fix django admin not serving css files on admin page
 - [x] error context
 - [x] show password errors
 - [x] loading icon on login
-- [ ] forgot password functionality
+- [ ] forgot password functionality (email)
