@@ -5,7 +5,10 @@ Install Docker Desktop
 
 ## Installation
 
-There are 3 .env files provided. Note in particular the .env files in backend\ and postgres\; there, you can adjust the database credentials, debug mode, secret key, allowed hosts, etc. But things should run just fine without any changes, but just know these files are there.
+There are 3 .env files provided. Note in particular the .env files in backend/ and postgres/; there, you can adjust the database credentials, debug mode, secret key, allowed hosts, etc. But things should run just fine without any changes, but just know these files are there.
+
+**_NOTE: If you change your database name/credentials, but have already run the steps below, you may need to delete the associated postgres docker image in order to get things to work._**
+
 
 For development mode without NGINX server, run the following command:
 
