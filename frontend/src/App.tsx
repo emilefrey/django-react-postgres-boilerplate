@@ -8,6 +8,7 @@ import { Snackbar, ThemeProvider } from '@material-ui/core';
 import { theme } from './Theme'
 import { AlertContext } from './contexts/AlertContext';
 import Alert from '@material-ui/lab/Alert';
+import { AxiosError } from './interfaces/axios/AxiosError'
 export interface AuthProps {
   logout: Function
   setAuthenticatedIfRequired: Function
@@ -52,14 +53,7 @@ function App(props: AppProps) {
 interface MapStateToPropsInterface {
   auth: {
     token: string,
-    error: {
-      message: string
-      response: {
-        data: {
-          non_field_errors: string[]
-        }
-      }
-    }
+    error: AxiosError
   }
 }
 

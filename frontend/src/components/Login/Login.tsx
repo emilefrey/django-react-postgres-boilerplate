@@ -47,6 +47,7 @@ function Login(props: AppProps) {
   const classes = useStyles();
   const [username, setuserName] = useState("");
   const [password, setPassword] = useState("");
+  const [validationErrors, setValidationErrors] = useState<string[]>([])
 
   let history = useHistory();
   let location = useLocation<LocationState>();
@@ -56,12 +57,17 @@ function Login(props: AppProps) {
     if (props.isAuthenticated) { history.replace(from) };
   });
 
+  useEffect(() => {
+    setValidationErrors(props.error ? props.error.response.data.non_field_errors : [])
+  }, [props.error])
+
   const handleFormFieldChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     switch (event.target.id) {
       case 'username': setuserName(event.target.value); break;
       case 'password': setPassword(event.target.value); break;
       default: return null;
     }
+    setValidationErrors([])
   };
 
   const handleSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
@@ -104,7 +110,7 @@ function Login(props: AppProps) {
             autoComplete="current-password"
             onChange={handleFormFieldChange}
           />
-          {validationErrorMessages(props.error ? props.error.response.data.non_field_errors : [])}
+          {validationErrorMessages(validationErrors)}
           <Button
             type="submit"
             fullWidth
@@ -119,6 +125,7 @@ function Login(props: AppProps) {
     </Container>
   );
 }
+
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => {
   return {
