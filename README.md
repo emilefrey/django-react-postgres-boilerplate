@@ -12,7 +12,7 @@
 - [ ] Are we in good shape to deploy?
 - [ ] Update and Pin versions (remove anything unused)
 - [x] fix django admin not serving css files on admin page
-- [ ] error context
-- [ ] show password errors
-- [ ] loading icon on login
-- [ ] forgot password
+- [x] error context
+- [x] show password errors
+- [x] loading icon on login
+- [ ] forgot password functionality

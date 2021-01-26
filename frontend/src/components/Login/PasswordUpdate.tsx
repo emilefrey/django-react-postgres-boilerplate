@@ -3,7 +3,7 @@ import axios, { AxiosRequestConfig } from 'axios';
 import * as settings from '../../settings';
 
 import { makeStyles } from '@material-ui/core/styles';
-import { Avatar, Button, Container, CssBaseline, TextField, Typography } from '@material-ui/core';
+import { Avatar, Button, Container, CssBaseline, LinearProgress, TextField, Typography } from '@material-ui/core';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
 import { AuthProps } from '../../App';
 import { PasswordUpdateError } from '../../interfaces/axios/AxiosError';
@@ -39,6 +39,7 @@ function PasswordUpdate(props: AuthProps) {
   const [new_password2, setNewPassword2] = useState("");
   const [success, setSuccess] = useState(false);
   const [validationErrors, setValidationErrors] = useState<string[]>([])
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleFormFieldChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSuccess(false);
@@ -52,6 +53,7 @@ function PasswordUpdate(props: AuthProps) {
 
   const handleSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsLoading(true)
     if (new_password1 !== new_password2) {
       setValidationErrors(["Passwords don't match!"])
     } else if (new_password1 === "") {
@@ -72,6 +74,7 @@ function PasswordUpdate(props: AuthProps) {
         (error: PasswordUpdateError) => {
           console.log(error.response.data.new_password2)
           setValidationErrors(error.response.data.new_password2)
+          setIsLoading(false)
         })
     }
   }
@@ -88,7 +91,7 @@ function PasswordUpdate(props: AuthProps) {
           <>
             <Typography component="h1" variant="h5">
               Update Password
-        </Typography>
+            </Typography>
             <form className={classes.form} noValidate onSubmit={handleSubmit}>
               <TextField
                 variant="outlined"
@@ -117,6 +120,7 @@ function PasswordUpdate(props: AuthProps) {
                 helperText={new_password1 !== new_password2 ? "Passwords don't match" : null}
               />
               {validationErrorMessages(validationErrors)}
+              {isLoading && <LinearProgress color="secondary" />}
               <Button
                 type="submit"
                 fullWidth
@@ -133,7 +137,7 @@ function PasswordUpdate(props: AuthProps) {
             variant="contained"
             color="primary"
             href="/"> Return Home
-        </Button>
+          </Button>
         }
       </div >
     </Container >

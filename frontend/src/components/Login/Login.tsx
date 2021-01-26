@@ -15,6 +15,7 @@ import * as actions from '../../auth/authActions';
 import { useHistory, useLocation } from "react-router-dom";
 import { AppProps } from '../../App';
 import validationErrorMessages from '../../helpers/validationErrorMessages'
+import { LinearProgress } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -48,6 +49,7 @@ function Login(props: AppProps) {
   const [username, setuserName] = useState("");
   const [password, setPassword] = useState("");
   const [validationErrors, setValidationErrors] = useState<string[]>([])
+  const [isLoading, setIsLoading] = useState(false)
 
   let history = useHistory();
   let location = useLocation<LocationState>();
@@ -59,6 +61,7 @@ function Login(props: AppProps) {
 
   useEffect(() => {
     setValidationErrors(props.error ? props.error.response.data.non_field_errors : [])
+    setIsLoading(false)
   }, [props.error])
 
   const handleFormFieldChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -73,6 +76,7 @@ function Login(props: AppProps) {
   const handleSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     props.onAuth(username, password);
+    setIsLoading(true)
   }
 
   return (
@@ -111,6 +115,7 @@ function Login(props: AppProps) {
             onChange={handleFormFieldChange}
           />
           {validationErrorMessages(validationErrors)}
+          {isLoading && <LinearProgress color="secondary" />}
           <Button
             type="submit"
             fullWidth
