@@ -5,7 +5,7 @@ Install Docker Desktop
 
 ## Installation
 
-There are 3 .env files provided. Note in particular the .env files in backend/ and postgres/; there, you can adjust the database credentials, debug mode, secret key, allowed hosts, etc. But things should run just fine without any changes, but just know these files are there.
+There are 3 .env files provided. Note in particular the .env files in backend/ and postgres/; there, you can adjust the database credentials, debug mode, secret key, allowed hosts, etc. Things should run just fine without any changes, but just know these files are there.
 
 The included sample helloyou django app can be easily removed by removing 'helloyou' from INSTALLED_APPS in django mainapp/settings.py, removing the associated helloyou path in mainapp/urls.py and deleting the entire helloyou folder. On the frontend, delete/replace the contents of Home.tsx.
 
