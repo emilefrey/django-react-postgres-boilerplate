@@ -47,3 +47,5 @@ The Material UI Theme can be adjusted in frontend\src\Theme.tsx
 - [x] show password errors
 - [x] loading icon on login
 - [ ] forgot password functionality (email)
+- [ ] add logo holder
+- [ ] ability to customize background on login
