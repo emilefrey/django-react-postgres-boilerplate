@@ -62,7 +62,7 @@ function Home(props: AuthProps) {
   return (
     <React.Fragment>
       <CssBaseline />
-        <Typography className={classes.title} align="center" variant="h4" color="textPrimary">Hello You!</Typography>
+        <Typography className={classes.title} align="center" variant="h3" color="textPrimary">HelloYou</Typography>
       <Container fixed className={classes.container}>
         <Grid container alignItems="center" spacing={3}>
           <Grid item xs={6}>
@@ -91,7 +91,7 @@ function Home(props: AuthProps) {
           <Grid item xs={6}>
             <Paper className={classes.title} elevation={0}>
               <Typography variant="h6">
-                Response from Backend: <span>&nbsp;</span>
+                Backend Response: <span>&nbsp;</span>
               </Typography>
               <Typography variant="body1" >
                 {helloName}

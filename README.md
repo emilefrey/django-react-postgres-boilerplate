@@ -35,7 +35,7 @@ The Material UI Theme can be adjusted in frontend\src\Theme.tsx
 **TODO:**
 - [ ] Basic Backend Testing
 - [ ] Frontend Testing (React Testing Library)
-- [ ] Readme (setup and how to remove remnants of dummy stuff)
+- [x] Readme (setup and how to remove remnants of dummy stuff)
 - [x] Material UI Theme
 - [ ] Auto redirect to login with Failed Request
 - [ ] Auto Generation of Left Nav based on Routes?
