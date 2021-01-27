@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'rest_auth',
     'corsheaders',
 
-    'prediction',
+    'helloyou',
     'users',
 ]
 

@@ -39,17 +39,6 @@ services:
       - backend
     command: npm start
 
-  # nginx:
-  #   restart: always
-  #   build: ./nginx
-  #   volumes:
-  #     - django_static_volume:/usr/src/app/django_files/static
-  #     - react_static_volume:/usr/src/app/react_files/static
-  #   ports:
-  #     - 80:80
-  #   depends_on:
-  #     - react
-
 volumes:
   postgres_data:
   django_static_volume:

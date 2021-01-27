@@ -7,7 +7,7 @@ Install Docker Desktop
 
 There are 3 .env files provided. Note in particular the .env files in backend/ and postgres/; there, you can adjust the database credentials, debug mode, secret key, allowed hosts, etc. But things should run just fine without any changes, but just know these files are there.
 
-The included sample prediction django app can be easily removed by removing 'prediction' from INSTALLED_APPS in django mainapp/settings.py, removing the associated path in mainapp/urls.py and deleting the entire prediction folder. Additionally, you should remove pandas, scikit-learn, and joblib from backend/requirements.txt. On the frontend, delete/replace the contents of Home.tsx.
+The included sample helloyou django app can be easily removed by removing 'helloyou' from INSTALLED_APPS in django mainapp/settings.py, removing the associated helloyou path in mainapp/urls.py and deleting the entire helloyou folder. On the frontend, delete/replace the contents of Home.tsx.
 
 Change the boilerplate app name (shown in header and footer) by changing the constant APP_NAME in frontend/src/settings.tsx.
 

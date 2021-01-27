@@ -72,12 +72,13 @@ function PasswordUpdate(props: AuthProps) {
         setSuccess(true);
       }).catch(
         (error: PasswordUpdateError) => {
-          console.log(error.response.data.new_password2)
           setValidationErrors(error.response.data.new_password2)
-          setIsLoading(false)
         })
-    }
+      }
+      setIsLoading(false)
   }
+
+  const passwordsMatch = new_password1 === new_password2
 
   return (
     <Container component="main" maxWidth="xs">
@@ -103,8 +104,8 @@ function PasswordUpdate(props: AuthProps) {
                 type="password"
                 id="new_password1"
                 onChange={handleFormFieldChange}
-                error={new_password1 !== new_password2}
-                helperText={new_password1 !== new_password2 ? "Passwords don't match" : null}
+                error={!passwordsMatch}
+                helperText={!passwordsMatch ? "Passwords don't match" : null}
               />
               <TextField
                 variant="outlined"
@@ -116,8 +117,8 @@ function PasswordUpdate(props: AuthProps) {
                 type="password"
                 id="new_password2"
                 onChange={handleFormFieldChange}
-                error={new_password1 !== new_password2}
-                helperText={new_password1 !== new_password2 ? "Passwords don't match" : null}
+                error={!passwordsMatch}
+                helperText={!passwordsMatch ? "Passwords don't match" : null}
               />
               {validationErrorMessages(validationErrors)}
               {isLoading && <LinearProgress color="secondary" />}
