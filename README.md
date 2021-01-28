@@ -11,6 +11,8 @@ The included sample helloyou django app can be easily removed by removing 'hello
 
 Change the boilerplate app name (shown in header and footer) by changing the constant APP_NAME in frontend/src/settings.tsx.
 
+The Material UI Theme can be adjusted in frontend\src\Theme.tsx
+
 **_NOTE: If you change your database name/credentials, but have already run the steps below, you may need to delete the associated postgres docker image in order to get things to work._**
 
 
@@ -25,15 +27,13 @@ For development with the NGINX server run:
 ```sh
 docker-compose -f "docker-compose.yml" up -d --build
 ```
-The server should be available at `http://127.0.0.1/`. This mode will not hot reload since it's running a production build.
+The server should be available at `http://127.0.0.1/`. This mode will not hot reload since it's running a production build (npm build).
 
 
-The Material UI Theme can be adjusted in frontend\src\Theme.tsx
-
-**_NOTE: This repo is still largely a work in progress, but it should be a good starting point. Suggestions/feedback are greatly appreciated._**
+**_NOTE: This repo is still largely a work in progress, but it should be a good starting point. Suggestions/feedback in discussions tab are greatly appreciated._**
 
 **TODO:**
-- [ ] Basic Backend Testing
+- [ ] Backend Testing
 - [ ] Frontend Testing (React Testing Library)
 - [x] Readme (setup and how to remove remnants of dummy stuff)
 - [x] Material UI Theme
