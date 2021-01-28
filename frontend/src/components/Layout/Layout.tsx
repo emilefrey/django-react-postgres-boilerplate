@@ -78,7 +78,7 @@ function Layout(props: AppProps) {
       <List className={classes.navBar}>{mainListItems}</List>
       <Divider />
       <main className={classes.content}>
-        <TopBar {...props} />
+        {props.isAuthenticated && <TopBar {...props} />}
         <Container maxWidth="xl" className={classes.container}>
           {props.children}
         </Container>

@@ -6,6 +6,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { makeStyles } from '@material-ui/core/styles';
 import { Container, Grid, Paper, Typography, Button, TextField } from '@material-ui/core';
 import { AuthProps } from '../App';
+import { APP_NAME } from '../settings'
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -62,7 +63,6 @@ function Home(props: AuthProps) {
   return (
     <React.Fragment>
       <CssBaseline />
-        <Typography className={classes.title} align="center" variant="h3" color="textPrimary">HelloYou</Typography>
       <Container fixed className={classes.container}>
         <Grid container alignItems="center" spacing={3}>
           <Grid item xs={6}>

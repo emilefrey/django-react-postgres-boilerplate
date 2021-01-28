@@ -35,20 +35,18 @@ The server should be available at `http://127.0.0.1/`. This mode will not hot re
 **_NOTE: This repo is still largely a work in progress, but it should be a good starting point. Suggestions/feedback in discussions tab are greatly appreciated._**
 
 **TODO:**
-- [ ] Backend Testing
-- [ ] Frontend Testing (React Testing Library)
 - [x] Readme (setup and how to remove remnants of dummy stuff)
 - [x] Material UI Theme
-- [ ] Auto redirect to login with Failed Request
 - [x] Auto Generation of Left Nav based on Routes?
 - [x] Fix NGINX Docker Compose
-- [ ] Axios Interfaces
-- [ ] Update and Pin versions (remove anything unused)
 - [x] fix django admin not serving css files on admin page
 - [x] error context
 - [x] show password errors
 - [x] loading icon on login
+- [ ] Add support for nested sub-routes off the main left-nav routes
 - [ ] forgot password functionality (email)
-- [ ] add logo holder
-- [ ] ability to customize background on login
-- [ ] Add support for sub-routes off the main left-nav routes
+- [ ] Backend Testing
+- [ ] Frontend Testing (React Testing Library)
+- [ ] Auto redirect to login with Failed Request
+- [ ] Axios Interface for demo API
+- [ ] Update and Pin versions (remove anything unused)

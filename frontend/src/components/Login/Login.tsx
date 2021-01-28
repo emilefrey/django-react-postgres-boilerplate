@@ -16,6 +16,7 @@ import { useHistory, useLocation } from "react-router-dom";
 import { AppProps } from '../../App';
 import validationErrorMessages from '../../helpers/validationErrorMessages'
 import { LinearProgress } from '@material-ui/core';
+import { APP_NAME } from '../../settings'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -34,6 +35,13 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
+  },
+  title: {
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(2),
+    padding: theme.spacing(2), paddingLeft: theme.spacing(4),
+    color: theme.palette.primary.main,
+    fontWeight: 700
   },
 }));
 
@@ -81,6 +89,7 @@ function Login(props: AppProps) {
 
   return (
     <Container component="main" maxWidth="xs">
+      <Typography className={classes.title} align="center" variant="h2" color="textPrimary">{APP_NAME}</Typography>
       <CssBaseline />
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
