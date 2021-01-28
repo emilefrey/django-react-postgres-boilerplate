@@ -14,7 +14,7 @@ import * as actions from '../../auth/authActions';
 
 import { useHistory, useLocation } from "react-router-dom";
 import { AppProps } from '../../App';
-import validationErrorMessages from '../../helpers/validationErrorMessages'
+import ValidationErrorMessages from '../../helpers/ValidationErrorMessages'
 import { LinearProgress } from '@material-ui/core';
 import { APP_NAME } from '../../settings'
 
@@ -56,7 +56,7 @@ function Login(props: AppProps) {
   const classes = useStyles();
   const [username, setuserName] = useState("");
   const [password, setPassword] = useState("");
-  const [validationErrors, setValidationErrors] = useState<string[]>([])
+  const [validationErrors, setValidationErrors] = useState<Record<string, string[]>>({})
   const [isLoading, setIsLoading] = useState(false)
 
   let history = useHistory();
@@ -68,7 +68,7 @@ function Login(props: AppProps) {
   });
 
   useEffect(() => {
-    setValidationErrors(props.error ? props.error.response.data.non_field_errors : [])
+    setValidationErrors(props.error?.response?.data)
     setIsLoading(false)
   }, [props.error])
 
@@ -78,7 +78,7 @@ function Login(props: AppProps) {
       case 'password': setPassword(event.target.value); break;
       default: return null;
     }
-    setValidationErrors([])
+    setValidationErrors({})
   };
 
   const handleSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
@@ -123,7 +123,7 @@ function Login(props: AppProps) {
             autoComplete="current-password"
             onChange={handleFormFieldChange}
           />
-          {validationErrorMessages(validationErrors)}
+          <ValidationErrorMessages validationErrors={validationErrors}/>
           {isLoading && <LinearProgress color="secondary" />}
           <Button
             type="submit"

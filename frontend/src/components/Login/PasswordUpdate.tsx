@@ -7,7 +7,7 @@ import { Avatar, Button, Container, CssBaseline, LinearProgress, TextField, Typo
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
 import { AuthProps } from '../../App';
 import { PasswordUpdateError } from '../../interfaces/axios/AxiosError';
-import validationErrorMessages from '../../helpers/validationErrorMessages'
+import ValidationErrorMessages from '../../helpers/ValidationErrorMessages'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -38,7 +38,7 @@ function PasswordUpdate(props: AuthProps) {
   const [new_password1, setNewPassword1] = useState("");
   const [new_password2, setNewPassword2] = useState("");
   const [success, setSuccess] = useState(false);
-  const [validationErrors, setValidationErrors] = useState<string[]>([])
+  const [validationErrors, setValidationErrors] = useState<Record<string, string[]>>({})
   const [isLoading, setIsLoading] = useState(false)
 
   const handleFormFieldChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -48,16 +48,16 @@ function PasswordUpdate(props: AuthProps) {
       case 'new_password2': setNewPassword2(event.target.value); break;
       default: return null;
     }
-    setValidationErrors([])
+    setValidationErrors({})
   };
 
   const handleSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true)
     if (new_password1 !== new_password2) {
-      setValidationErrors(["Passwords don't match!"])
+      setValidationErrors({ "error": ["Passwords don't match!"] })
     } else if (new_password1 === "") {
-      setValidationErrors(["Password can't be blank!"])
+      setValidationErrors({ "error": ["Password can't be blank!"] })
     }
     else {
       let headers = { 'Authorization': `Token ${props.token}` };
@@ -72,10 +72,10 @@ function PasswordUpdate(props: AuthProps) {
         setSuccess(true);
       }).catch(
         (error: PasswordUpdateError) => {
-          setValidationErrors(error.response.data.new_password2)
+          setValidationErrors(error?.response?.data)
         })
-      }
-      setIsLoading(false)
+    }
+    setIsLoading(false)
   }
 
   const passwordsMatch = new_password1 === new_password2
@@ -120,7 +120,7 @@ function PasswordUpdate(props: AuthProps) {
                 error={!passwordsMatch}
                 helperText={!passwordsMatch ? "Passwords don't match" : null}
               />
-              {validationErrorMessages(validationErrors)}
+              <ValidationErrorMessages validationErrors={validationErrors} />
               {isLoading && <LinearProgress color="secondary" />}
               <Button
                 type="submit"
