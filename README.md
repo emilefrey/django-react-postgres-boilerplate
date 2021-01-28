@@ -11,11 +11,9 @@ The included sample helloyou django app can be easily removed by removing 'hello
 
 Change the boilerplate app name (shown in header and footer) by changing the constant APP_NAME in frontend/src/settings.tsx.
 
-<<<<<<< HEAD
 The left navigation bar (intially shown on the left with only the Home icon upon login) is auto-generated along with the associated Router's private routes. These routes can be easily added/modified in routes/Routes.ts.
-=======
+
 The Material UI Theme can be adjusted in frontend\src\Theme.tsx
->>>>>>> 02f9bb72b8717732c0c3da250dbdf4342b7d855a
 
 **_NOTE: If you change your database name/credentials, but have already run the steps below, you may need to delete the associated postgres docker image in order to get things to work._**
 
