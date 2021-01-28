@@ -32,7 +32,7 @@ docker-compose -f "docker-compose.yml" up -d --build
 The server should be available at `http://127.0.0.1/`. This mode will not hot reload since it's running a production build (npm build).
 
 
-**_NOTE: This repo is still largely a work in progress, but it should be a good starting point. Suggestions/feedback in discussions tab are greatly appreciated._**
+**_Suggestions/feedback in discussions tab are greatly appreciated._**
 
 **TODO:**
 - [x] Readme (setup and how to remove remnants of dummy stuff)
