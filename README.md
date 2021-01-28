@@ -11,6 +11,8 @@ The included sample helloyou django app can be easily removed by removing 'hello
 
 Change the boilerplate app name (shown in header and footer) by changing the constant APP_NAME in frontend/src/settings.tsx.
 
+The left navigation bar (intially shown on the left with only the Home icon upon login) is auto-generated along with the associated Router's private routes. These routes can be easily added/modified in routes/Routes.ts.
+
 **_NOTE: If you change your database name/credentials, but have already run the steps below, you may need to delete the associated postgres docker image in order to get things to work._**
 
 
@@ -38,7 +40,7 @@ The Material UI Theme can be adjusted in frontend\src\Theme.tsx
 - [x] Readme (setup and how to remove remnants of dummy stuff)
 - [x] Material UI Theme
 - [ ] Auto redirect to login with Failed Request
-- [ ] Auto Generation of Left Nav based on Routes?
+- [x] Auto Generation of Left Nav based on Routes?
 - [x] Fix NGINX Docker Compose
 - [ ] Axios Interfaces
 - [ ] Update and Pin versions (remove anything unused)
@@ -49,3 +51,4 @@ The Material UI Theme can be adjusted in frontend\src\Theme.tsx
 - [ ] forgot password functionality (email)
 - [ ] add logo holder
 - [ ] ability to customize background on login
+- [ ] Add support for sub-routes off the main left-nav routes

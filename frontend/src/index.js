@@ -8,6 +8,7 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import authReducer from './auth/authReducer';
 import AlertContextProvider from './contexts/AlertContext'
+import { BrowserRouter } from 'react-router-dom';
 
 const reducer = combineReducers({ auth: authReducer }); // Using Combine Reducers here although only one reducer is present.
 // Official explaination here: https://react-redux.js.org/using-react-redux/connect-mapstate#mapstatetoprops-will-not-run-if-the-store-state-is-the-same
@@ -20,7 +21,9 @@ ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <AlertContextProvider>
-        <App />
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
       </AlertContextProvider>
     </Provider>
   </React.StrictMode>,
