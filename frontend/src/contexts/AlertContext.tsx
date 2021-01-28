@@ -2,7 +2,7 @@ import React, { createContext, useState } from 'react';
 import { Color } from '@material-ui/lab/Alert';
 
 export type AlertContextProps = {
-  TSAlert: (message: string, severity: Color) => void,
+  TriggerAlert: (message: string, severity: Color) => void,
   openAlert: boolean,
   alertMessage: string,
   alertType: Color,
@@ -10,7 +10,7 @@ export type AlertContextProps = {
 };
 
 export const AlertContext = createContext<AlertContextProps>({
-  TSAlert: () => {},
+  TriggerAlert: () => {},
   openAlert: false,
   alertMessage: '',
   alertType: 'info',
@@ -22,7 +22,7 @@ const AlertContextProvider = (props: any) => {
   const [alertMessage, setAlertMessage] = useState('');
   const [alertType, setAlertType] = useState<Color>('error');
 
-  const TSAlert = (message: string, severity: Color = 'info') => {
+  const TriggerAlert = (message: string, severity: Color = 'info') => {
     setAlertMessage(message);
     setAlertType(severity);
     setOpenAlert(true);
@@ -37,7 +37,7 @@ const AlertContextProvider = (props: any) => {
 
   return (
     <AlertContext.Provider value={{
-      TSAlert,
+      TriggerAlert,
       openAlert,
       alertMessage,
       alertType,

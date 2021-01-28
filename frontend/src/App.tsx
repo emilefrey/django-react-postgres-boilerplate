@@ -41,7 +41,7 @@ function App(props: AppProps) {
           <Router {...props} />
         </Layout>
         <Snackbar id="appAlertSnackbar" open={openAlert} autoHideDuration={6000} onClose={handleAlertClose}>
-          <Alert onClose={handleAlertClose} severity={alertType}>
+          <Alert variant="filled" onClose={handleAlertClose} severity={alertType}>
             {alertMessage}
           </Alert>
         </Snackbar>

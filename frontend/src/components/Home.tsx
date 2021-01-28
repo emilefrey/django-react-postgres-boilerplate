@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import axios, { AxiosRequestConfig } from 'axios';
 import * as settings from '../settings';
 
@@ -6,7 +6,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { makeStyles } from '@material-ui/core/styles';
 import { Container, Grid, Paper, Typography, Button, TextField } from '@material-ui/core';
 import { AuthProps } from '../App';
-import { APP_NAME } from '../settings'
+import { AlertContext } from '../contexts/AlertContext';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -40,6 +40,7 @@ function Home(props: AuthProps) {
 
   const [name, setName] = useState("")
   const [helloName, setHelloName] = useState("")
+  const { TriggerAlert } = useContext(AlertContext)
   const classes = useStyles()
 
   const handleSubmit = (event: any) => {
@@ -52,6 +53,7 @@ function Home(props: AuthProps) {
     axios(config).then(
       (res: any) => {
         setHelloName(res.data["response"])
+        TriggerAlert("Success!", "success")
       }).catch(
         (error: string) => { alert(error) })
   }

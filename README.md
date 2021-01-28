@@ -15,6 +15,8 @@ The left navigation bar (intially shown on the left with only the Home icon upon
 
 The Material UI Theme can be adjusted in frontend\src\Theme.tsx
 
+An alert setter at the context level is also included. An example of TriggerAlert is shown in Home.tsx (displayed after successful submit). See AlertContext.tsx for typings.
+
 **_NOTE: If you change your database name/credentials, but have already run the steps below, you may need to delete the associated postgres docker image in order to get things to work._**
 
 
