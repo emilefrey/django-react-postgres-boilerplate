@@ -7,7 +7,7 @@ import { Avatar, Button, Container, CssBaseline, LinearProgress, TextField, Typo
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
 import { AuthProps } from '../../App';
 import { PasswordUpdateError } from '../../interfaces/axios/AxiosError';
-import ValidationErrorMessages from '../../helpers/ValidationErrorMessages'
+import ValidationMessages from '../../helpers/ValidationMessages'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -120,7 +120,7 @@ function PasswordUpdate(props: AuthProps) {
                 error={!passwordsMatch}
                 helperText={!passwordsMatch ? "Passwords don't match" : null}
               />
-              <ValidationErrorMessages validationErrors={validationErrors} />
+              <ValidationMessages validationErrors={validationErrors} />
               {isLoading && <LinearProgress color="secondary" />}
               <Button
                 type="submit"

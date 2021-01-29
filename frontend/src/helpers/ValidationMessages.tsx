@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import MuiAlert from '@material-ui/lab/Alert';
 
-const ValidationErrorMessages = (props: { validationErrors: Record<string, string[]> | undefined }) => {
+
+const ValidationMessages = (props: { validationErrors: Record<string, string[]> | undefined }) => {
   const { validationErrors } = props
   const [errorMessages, setErrorMessages] = useState<string[]>([])
 
@@ -25,4 +26,4 @@ const ValidationErrorMessages = (props: { validationErrors: Record<string, strin
   )
 }
 
-export default ValidationErrorMessages
+export default ValidationMessages

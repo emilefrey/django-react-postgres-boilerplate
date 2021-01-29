@@ -14,7 +14,7 @@ import * as actions from '../../auth/authActions';
 
 import { useHistory, useLocation } from "react-router-dom";
 import { AppProps } from '../../App';
-import ValidationErrorMessages from '../../helpers/ValidationErrorMessages'
+import ValidationMessages from '../../helpers/ValidationMessages'
 import { LinearProgress } from '@material-ui/core';
 import { APP_NAME } from '../../settings'
 
@@ -123,7 +123,7 @@ function Login(props: AppProps) {
             autoComplete="current-password"
             onChange={handleFormFieldChange}
           />
-          <ValidationErrorMessages validationErrors={validationErrors}/>
+          <ValidationMessages validationErrors={validationErrors}/>
           {isLoading && <LinearProgress color="secondary" />}
           <Button
             type="submit"
