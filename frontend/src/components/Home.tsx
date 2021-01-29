@@ -157,11 +157,9 @@ function Home(props: AuthProps) {
               >
               </TextField>
               <Tooltip title={`Enter name and click submit to see a ${token === props.token ? 'successful' : 'failed'} request.`}>
-                <div>
-                  <Button variant="contained" color="primary" onClick={handleSubmit} disabled={name.length === 0}>
-                    Submit
-                  </Button>
-                </div>
+                <Button variant="contained" color="primary" onClick={handleSubmit} disabled={name.length === 0}>
+                  Submit
+                </Button>
               </Tooltip>
             </Paper>
           </Grid>
