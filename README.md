@@ -52,6 +52,7 @@ The server should be available at `http://127.0.0.1/`. This mode will not hot re
 - [ ] email support (for password reset, etc.)
 - [ ] Add support for nested sub-routes off the main left-nav routes
 - [ ] forgot password functionality (email)
+- [ ] Context level modal?
 - [ ] Backend Testing
 - [ ] Frontend Testing (React Testing Library)
 - [ ] Auto redirect to login with Failed Request
