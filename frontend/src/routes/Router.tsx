@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Switch } from "react-router-dom";
+import { Redirect, Route, Switch } from "react-router-dom";
 
 import Login from "../components/Login/Login";
 import PasswordUpdate from "../components/Login/PasswordUpdate";
@@ -21,6 +21,7 @@ export default function Router(props: AppProps) {
           <route.component {...props} />
         </PrivateRoute>)
       }
+      <Route render={() => <Redirect to="/" />} />
     </Switch>
   )
 };

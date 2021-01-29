@@ -25,7 +25,7 @@ export default function TopBar(props: AppProps) {
   return (
     <AppBar position="relative">
       <Toolbar className={props.isAuthenticated ? classes.authToolbar : undefined}>
-        <Typography variant="h6" align="center" className={classes.title}>
+        <Typography variant="h5" align="center" className={classes.title}>
           {APP_NAME}
         </Typography>
         {props.isAuthenticated && (
