@@ -4,7 +4,7 @@ import * as settings from '../settings';
 
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { makeStyles } from '@material-ui/core/styles';
-import { Container, Grid, Paper, Typography, Button, TextField } from '@material-ui/core';
+import { Container, Grid, Paper, Typography, Button, TextField, Tooltip } from '@material-ui/core';
 import { AuthProps } from '../App';
 import { AlertContext } from '../contexts/AlertContext';
 
@@ -15,6 +15,7 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: "10vh",
     borderRadius: '6px',
     backgroundColor: theme.palette.action.disabledBackground,
+    padding: '20px'
   },
   title: {
     marginTop: theme.spacing(2),
@@ -40,12 +41,14 @@ function Home(props: AuthProps) {
 
   const [name, setName] = useState("")
   const [helloName, setHelloName] = useState("")
+  const [token, setToken] = useState(props.token)
+
   const { TriggerAlert } = useContext(AlertContext)
   const classes = useStyles()
 
   const handleSubmit = (event: any) => {
     let data = { "name": name }
-    let headers = { 'Authorization': `Token ${props.token}` };
+    let headers = { 'Authorization': `Token ${token}` };
     let url = settings.API_SERVER + '/api/helloyou/';
     const method = 'POST';
     let config: AxiosRequestConfig = { headers, method, url, data: data };
@@ -55,7 +58,7 @@ function Home(props: AuthProps) {
         setHelloName(res.data["response"])
         TriggerAlert("Success!", "success")
       }).catch(
-        (error: string) => { alert(error) })
+        (error: any) => { TriggerAlert(error.message, "error") })
   }
 
   const handleFormFieldChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -91,13 +94,36 @@ function Home(props: AuthProps) {
             </Paper>
           </Grid>
           <Grid item xs={6}>
-            <Paper className={classes.title} elevation={0}>
+            <Paper className={classes.title}>
               <Typography variant="h6">
                 Backend Response: <span>&nbsp;</span>
               </Typography>
               <Typography variant="body1" >
                 {helloName}
               </Typography>
+            </Paper>
+          </Grid>
+          <Grid item xs={6}>
+            <Paper className={classes.title}>
+              <Typography variant="h6">
+                Test Panel: <span>&nbsp;</span>
+              </Typography>
+              <Grid container spacing={2}>
+                <Grid item>
+                  <Tooltip title="Simulate a API request with a bad token.">
+                    <Button disabled={token === 'abc'} variant="contained" color="secondary" onClick={() => setToken("abc")}>
+                      Remove Token
+                    </Button>
+                  </Tooltip>
+                </Grid>
+                <Grid item>
+                  <Tooltip title="Restore token.">
+                    <Button disabled={token === props.token} variant="contained" color="primary" onClick={() => setToken(props.token)}>
+                      Restore Token
+                    </Button>
+                  </Tooltip>
+                </Grid>
+              </Grid>
             </Paper>
           </Grid>
         </Grid>
