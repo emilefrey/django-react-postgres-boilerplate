@@ -4,7 +4,7 @@ import * as settings from '../settings';
 
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { makeStyles } from '@material-ui/core/styles';
-import { Container, Grid, Paper, Typography, Button, TextField, Tooltip } from '@material-ui/core';
+import { Container, Grid, Paper, Typography, Button, TextField, Tooltip, Switch, createStyles, Theme, withStyles, SwitchProps, SwitchClassKey } from '@material-ui/core';
 import { AuthProps } from '../App';
 import { AlertContext } from '../contexts/AlertContext';
 
@@ -31,10 +31,78 @@ const useStyles = makeStyles((theme) => ({
     paddingRight: theme.spacing(4),
     marginBottom: theme.spacing(2),
   },
-  textInputTop: {
-    marginTop: theme.spacing(4),
-  }
+
 }));
+
+interface Styles extends Partial<Record<SwitchClassKey, string>> {
+  focusVisible?: string;
+}
+interface Props extends SwitchProps {
+  classes: Styles;
+}
+
+const IOSSwitch = withStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      width: 42,
+      height: 26,
+      padding: 0,
+      margin: theme.spacing(1),
+    },
+    switchBase: {
+      padding: 1,
+      '&$checked': {
+        transform: 'translateX(16px)',
+        color: theme.palette.common.white,
+        '& + $track': {
+          backgroundColor: '#5cb85c',
+          opacity: 1,
+          border: 'none',
+        },
+      },
+      '&:not($checked)': {
+        color: theme.palette.common.white,
+        '& + $track': {
+          backgroundColor: '#d9534f',
+          opacity: 1,
+          border: 'none',
+        },
+      },
+      '&$focusVisible $thumb': {
+        color: '#52d869',
+        border: '6px solid #fff',
+      },
+    },
+    thumb: {
+      width: 24,
+      height: 24,
+    },
+    track: {
+      borderRadius: 26 / 2,
+      border: `1px solid ${theme.palette.grey[400]}`,
+      backgroundColor: theme.palette.grey[50],
+      opacity: 1,
+      transition: theme.transitions.create(['background-color', 'border']),
+    },
+    checked: {},
+    focusVisible: {},
+  }),
+)(({ classes, ...props }: Props) => {
+  return (
+    <Switch
+      focusVisibleClassName={classes.focusVisible}
+      disableRipple
+      classes={{
+        root: classes.root,
+        switchBase: classes.switchBase,
+        thumb: classes.thumb,
+        track: classes.track,
+        checked: classes.checked,
+      }}
+      {...props}
+    />
+  );
+});
 
 
 function Home(props: AuthProps) {
@@ -69,7 +137,7 @@ function Home(props: AuthProps) {
     <React.Fragment>
       <CssBaseline />
       <Container fixed className={classes.container}>
-        <Grid container alignItems="center" spacing={3}>
+        <Grid container spacing={3}>
           <Grid item xs={6}>
             <Paper className={classes.textInput}>
               <Typography variant="h6" color="primary">
@@ -88,9 +156,13 @@ function Home(props: AuthProps) {
                 onChange={handleFormFieldChange}
               >
               </TextField>
-              <Button variant="contained" color="primary" onClick={handleSubmit} disabled={name.length === 0}>
-                Submit
-              </Button>
+              <Tooltip title={`Enter name and click submit to see a ${token === props.token ? 'successful' : 'failed'} request.`}>
+                <div>
+                  <Button variant="contained" color="primary" onClick={handleSubmit} disabled={name.length === 0}>
+                    Submit
+                  </Button>
+                </div>
+              </Tooltip>
             </Paper>
           </Grid>
           <Grid item xs={6}>
@@ -106,24 +178,24 @@ function Home(props: AuthProps) {
           <Grid item xs={6}>
             <Paper className={classes.title}>
               <Typography variant="h6">
-                Test Panel: <span>&nbsp;</span>
+                Test Panel:
               </Typography>
-              <Grid container spacing={2}>
-                <Grid item>
-                  <Tooltip title="Simulate a API request with a bad token.">
-                    <Button disabled={token === 'abc'} variant="contained" color="secondary" onClick={() => setToken("abc")}>
-                      Remove Token
-                    </Button>
-                  </Tooltip>
+              <Typography variant="subtitle2">
+                Valid Token: <span>&nbsp;</span>
+              </Typography>
+              <Typography component="div">
+                <Grid component="label" container alignItems="center" spacing={1}>
+                  <Grid item>Off</Grid>
+                  <Grid item>
+                    <Tooltip title="Toggle the state of the token and simulate successful/failed API requests.">
+                      <div>
+                        <IOSSwitch checked={token === props.token} onChange={() => token === 'abc' ? setToken(props.token) : setToken('abc')} />
+                      </div>
+                    </Tooltip>
+                  </Grid>
+                  <Grid item>On</Grid>
                 </Grid>
-                <Grid item>
-                  <Tooltip title="Restore token.">
-                    <Button disabled={token === props.token} variant="contained" color="primary" onClick={() => setToken(props.token)}>
-                      Restore Token
-                    </Button>
-                  </Tooltip>
-                </Grid>
-              </Grid>
+              </Typography>
             </Paper>
           </Grid>
         </Grid>
