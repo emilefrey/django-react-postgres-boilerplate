@@ -36,6 +36,16 @@ docker-compose -f "docker-compose.yml" up -d --build
 ```
 The server should be available at `http://127.0.0.1/`. This mode will not hot reload since it's running a production build (npm build).
 
+The password reset feature is fully functional. In order to get the password reset url, you will need to open the backend django console. Enter the following in an application like PowerShell:
+
+```sh
+$id = $(docker ps -aqf "name=django-react-postgres-boilerplate_backend")
+docker logs --tail 1000 -f $id
+```
+
+Upon submitting a valid email, you should get a path like /password_reset?token=abcdefgxyz123; paste this in your browser after localhost:3000 to access the password reset form. The password reset form validates the token and allows the user to provide a new password.
+
+Check out the Django docs starting [here](https://docs.djangoproject.com/en/3.1/topics/email/#smtp-backend) in order to update the Email Backend from a console output to an actual SMTP backend.
 
 **_Suggestions/feedback in discussions tab are greatly appreciated._**
 
@@ -49,9 +59,9 @@ The server should be available at `http://127.0.0.1/`. This mode will not hot re
 - [x] show password errors
 - [x] loading icon on login
 - [x] ensure a non-existing route redirects to home 
-- [ ] email support (for password reset)
+- [x] email support (for password reset)
+- [x] forgot password functionality (email)
 - [ ] Add support for nested sub-routes off the main left-nav routes
-- [ ] forgot password functionality (email)
 - [ ] Context level modal?
 - [ ] Swagger API Explorer
 - [ ] Backend Testing

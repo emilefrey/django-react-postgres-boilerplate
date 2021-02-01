@@ -70,7 +70,7 @@ function PasswordUpdate(props: AuthProps) {
       passwordFormData.append("new_password1", new_password1);
       passwordFormData.append("new_password2", new_password2);
       let config: AxiosRequestConfig = { headers, method, url, data: passwordFormData };
-      //Axios change_password API call
+      //Axios update_password API call
       axios(config).then((res: any) => {
         setSuccess(true);
       }).catch(

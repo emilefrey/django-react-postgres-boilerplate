@@ -15,10 +15,11 @@ import * as actions from '../../auth/authActions';
 import { useHistory, useLocation } from "react-router-dom";
 import { AppProps } from '../../App';
 import ValidationMessages from '../../helpers/ValidationMessages'
-import { LinearProgress } from '@material-ui/core';
+import { Grid, LinearProgress, Link } from '@material-ui/core';
 import { APP_NAME } from '../../settings'
+import { ForgotPassword } from './ForgotPassword'
 
-const useStyles = makeStyles((theme) => ({
+export const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
     display: 'flex',
@@ -35,6 +36,9 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
+  },
+  helper: {
+    margin: theme.spacing(1),
   },
   title: {
     marginTop: theme.spacing(2),
@@ -56,6 +60,7 @@ function Login(props: AppProps) {
   const classes = useStyles();
   const [username, setuserName] = useState("");
   const [password, setPassword] = useState("");
+  const [passwordReset, setPasswordReset] = useState(false);
   const [validationErrors, setValidationErrors] = useState<Record<string, string[]>>({})
   const [isLoading, setIsLoading] = useState(false)
 
@@ -96,45 +101,56 @@ function Login(props: AppProps) {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign in
+          {passwordReset ? "Reset Password" : "Sign in"}
         </Typography>
-        <form className={classes.form} noValidate onSubmit={handleSubmit}>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="username"
-            label="User Name"
-            name="username"
-            autoComplete="username"
-            autoFocus
-            onChange={handleFormFieldChange}
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-            onChange={handleFormFieldChange}
-          />
-          <ValidationMessages validationErrors={validationErrors}/>
-          {isLoading && <LinearProgress color="secondary" />}
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-          >
-            Sign In
+        {passwordReset ? <ForgotPassword /> :
+          <form className={classes.form} noValidate onSubmit={handleSubmit}>
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="username"
+              label="User Name"
+              name="username"
+              autoComplete="username"
+              autoFocus
+              onChange={handleFormFieldChange}
+            />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+              onChange={handleFormFieldChange}
+            />
+            <ValidationMessages validationErrors={validationErrors} />
+            {isLoading && <LinearProgress color="secondary" />}
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+            >
+              Sign In
           </Button>
-        </form>
+          </form>
+        }
+        <Grid container justify="center">
+          <Grid item xs={12}>
+            <Grid container justify="center">
+              <Link onClick={() => setPasswordReset(!passwordReset)}>
+                {passwordReset ? 'Back to Login' : 'Forgot password?'}
+              </Link>
+            </Grid>
+          </Grid>
+        </Grid>
       </div>
     </Container>
   );
