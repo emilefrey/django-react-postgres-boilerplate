@@ -49,10 +49,11 @@ The server should be available at `http://127.0.0.1/`. This mode will not hot re
 - [x] show password errors
 - [x] loading icon on login
 - [x] ensure a non-existing route redirects to home 
-- [ ] email support (for password reset, etc.)
+- [ ] email support (for password reset)
 - [ ] Add support for nested sub-routes off the main left-nav routes
 - [ ] forgot password functionality (email)
 - [ ] Context level modal?
+- [ ] Swagger API Explorer
 - [ ] Backend Testing
 - [ ] Frontend Testing (React Testing Library)
 - [ ] Auto redirect to login with Failed Request

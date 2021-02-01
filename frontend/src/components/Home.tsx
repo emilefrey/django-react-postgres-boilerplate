@@ -187,7 +187,7 @@ function Home(props: AuthProps) {
                   <Grid item>
                     <Tooltip title="Toggle the state of the token and simulate successful/failed API requests.">
                       <div>
-                        <IOSSwitch checked={token === props.token} onChange={() => token === 'abc' ? setToken(props.token) : setToken('abc')} />
+                        <IOSSwitch checked={token === props.token} onChange={() => token === props.token ? setToken('abc') : setToken(props.token)} />
                       </div>
                     </Tooltip>
                   </Grid>
