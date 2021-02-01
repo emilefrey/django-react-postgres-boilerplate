@@ -11,7 +11,7 @@ export default function Router(props: AppProps) {
   return (
     <Switch>
       <Route exact path="/login/"> <Login {...props} /></Route>
-      <PrivateRoute exact path="/update_password/" isAuthenticated={props.isAuthenticated}><PasswordUpdate {...props} /></PrivateRoute>
+      <PrivateRoute exact path="/change_password/" isAuthenticated={props.isAuthenticated}><PasswordUpdate {...props} /></PrivateRoute>
       {privateRoutes.map((route, index) =>
         <PrivateRoute
           key={index}

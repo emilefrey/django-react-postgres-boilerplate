@@ -31,7 +31,7 @@ export default function TopBar(props: AppProps) {
         {props.isAuthenticated && (
           <DropdownMenu dropdownButtonIcon={<AccountCircle />}>
             <div>
-              <MenuItem component='a' href='/update_password'>Change Password</MenuItem>
+              <MenuItem component='a' href='/change_password'>Change Password</MenuItem>
               <MenuItem onClick={() => props.logout()}>Logout</MenuItem>
             </div>
           </DropdownMenu>

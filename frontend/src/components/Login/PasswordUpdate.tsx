@@ -37,6 +37,7 @@ function PasswordUpdate(props: AuthProps) {
   const classes = useStyles();
   const [new_password1, setNewPassword1] = useState("");
   const [new_password2, setNewPassword2] = useState("");
+  const [oldPassword, setOldPassword] = useState("");
   const [success, setSuccess] = useState(false);
   const [validationErrors, setValidationErrors] = useState<Record<string, string[]>>({})
   const [isLoading, setIsLoading] = useState(false)
@@ -46,6 +47,7 @@ function PasswordUpdate(props: AuthProps) {
     switch (event.target.id) {
       case 'new_password1': setNewPassword1(event.target.value); break;
       case 'new_password2': setNewPassword2(event.target.value); break;
+      case 'old_password': setOldPassword(event.target.value); break;
       default: return null;
     }
     setValidationErrors({})
@@ -62,12 +64,13 @@ function PasswordUpdate(props: AuthProps) {
     else {
       let headers = { 'Authorization': `Token ${props.token}` };
       const method = 'POST';
-      let url = settings.API_SERVER + '/api/auth/update_password/';
+      let url = settings.API_SERVER + '/api/auth/change_password/';
       let passwordFormData = new FormData();
+      passwordFormData.append("old_password", oldPassword);
       passwordFormData.append("new_password1", new_password1);
       passwordFormData.append("new_password2", new_password2);
       let config: AxiosRequestConfig = { headers, method, url, data: passwordFormData };
-      //Axios update_password API call
+      //Axios change_password API call
       axios(config).then((res: any) => {
         setSuccess(true);
       }).catch(
@@ -94,6 +97,17 @@ function PasswordUpdate(props: AuthProps) {
               Update Password
             </Typography>
             <form className={classes.form} noValidate onSubmit={handleSubmit}>
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                name="old_password"
+                label="Old Password"
+                type="password"
+                id="old_password"
+                onChange={handleFormFieldChange}
+              />
               <TextField
                 variant="outlined"
                 margin="normal"
