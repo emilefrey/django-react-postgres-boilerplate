@@ -46,7 +46,7 @@ The server should be available at `http://127.0.0.1/`. This mode will not hot re
 ### Left Navigation Bar:
 - The left navigation bar (intially shown on the left with only the Home icon upon login) is auto-generated along with the associated React Router's private routes. These routes can be easily added/modified in routes/Routes.ts.
 ### Alerts:
-- An alert setter at the context level is also included. An example of TriggerAlert is shown in Home.tsx (displayed after successful submit). See AlertContext.tsx for typings.
+- An alert setter at the context level is also included. An example of TriggerAlert is shown in Home.tsx (variants displayed after successful/failed submit). See AlertContext.tsx for typings.
 
 ### Customization:
 - The boilerplate app name (shown at login, header, and footer) by changing the constant APP_NAME in frontend/src/settings.tsx.
