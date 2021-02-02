@@ -13,13 +13,8 @@ You shouldn't have to make any changes to get this up and running, but here's so
 
 - The included sample helloyou django app can be easily removed by removing 'helloyou' from INSTALLED_APPS in django mainapp/settings.py, removing the associated helloyou path in mainapp/urls.py and deleting the entire helloyou folder. There are no database migrations, so you don't need to worry about that. On the frontend, delete/replace the contents of Home.tsx.
 
-- You can change the boilerplate app name (shown at login, header, and footer) by changing the constant APP_NAME in frontend/src/settings.tsx.
+## Running
 
-- The left navigation bar (intially shown on the left with only the Home icon upon login) is auto-generated along with the associated React Router's private routes. These routes can be easily added/modified in routes/Routes.ts.
-
-- The Material UI Theme can be adjusted in frontend\src\Theme.tsx
-
-- An alert setter at the context level is also included. An example of TriggerAlert is shown in Home.tsx (displayed after successful submit). See AlertContext.tsx for typings.
 
 **_NOTE: If you change your database name/credentials, but have already run the steps below, you may need to delete the associated postgres docker image in order to get things to work._**
 
@@ -36,16 +31,28 @@ docker-compose -f "docker-compose.yml" up -d --build
 ```
 The server should be available at `http://127.0.0.1/`. This mode will not hot reload since it's running a production build (npm build).
 
-The password reset feature is fully functional. In order to get the password reset url, you will need to open the backend django console. Enter the following in an application like PowerShell:
 
-```sh
-$id = $(docker ps -aqf "name=django-react-postgres-boilerplate_backend")
-docker logs --tail 1000 -f $id
-```
+## Features
+### Forgot Password:
+- The password reset feature is fully functional. In order to get the password reset url, you will need to open the backend django console. Enter the following in an application like PowerShell:
+    ```sh
+    $id = $(docker ps -aqf "name=django-react-postgres-boilerplate_backend")
+    docker logs --tail 1000 -f $id
+    ```
+- Upon submitting a valid email, you should get a path like http://localhost:300/password_reset?token=abcdefgxyz123; paste this in your browser to access the password reset form. The password reset form first validates the token; if the token is valid, it presents the password reset interface and allows the user to provide a new password.
 
-Upon submitting a valid email, you should get a path like http://localhost:300/password_reset?token=abcdefgxyz123; paste this in your browser to access the password reset form. The password reset form first validates the token; if the token is valid, it presents the password reset interface and allows the user to provide a new password.
+    Check out the Django docs starting [here](https://docs.djangoproject.com/en/3.1/topics/email/#smtp-backend) in order to update the Email Backend from a console output to an actual SMTP backend.
 
-Check out the Django docs starting [here](https://docs.djangoproject.com/en/3.1/topics/email/#smtp-backend) in order to update the Email Backend from a console output to an actual SMTP backend.
+### Left Navigation Bar:
+- The left navigation bar (intially shown on the left with only the Home icon upon login) is auto-generated along with the associated React Router's private routes. These routes can be easily added/modified in routes/Routes.ts.
+### Alerts:
+- An alert setter at the context level is also included. An example of TriggerAlert is shown in Home.tsx (displayed after successful submit). See AlertContext.tsx for typings.
+
+### Customization:
+- You can change the boilerplate app name (shown at login, header, and footer) by changing the constant APP_NAME in frontend/src/settings.tsx.
+- The Material UI Theme can be adjusted in frontend\src\Theme.tsx
+
+### 
 
 **_Suggestions/feedback in discussions tab are greatly appreciated._**
 
