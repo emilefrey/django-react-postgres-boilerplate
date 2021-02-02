@@ -49,7 +49,8 @@ The server should be available at `http://127.0.0.1/`. This mode will not hot re
 - An alert setter at the context level is also included. An example of TriggerAlert is shown in Home.tsx (displayed after successful submit). See AlertContext.tsx for typings.
 
 ### Customization:
-- You can change the boilerplate app name (shown at login, header, and footer) by changing the constant APP_NAME in frontend/src/settings.tsx.
+- The boilerplate app name (shown at login, header, and footer) by changing the constant APP_NAME in frontend/src/settings.tsx.
+- The default session duration is set to 5 hours in frontend/src/settings.tsx. The user will be logged out after 5 hours.
 - The Material UI Theme can be adjusted in frontend\src\Theme.tsx
 
 ### 
@@ -69,6 +70,7 @@ The server should be available at `http://127.0.0.1/`. This mode will not hot re
 - [x] email support (for password reset)
 - [x] forgot password functionality (email)
 - [ ] Add support for nested sub-routes off the main left-nav routes
+- [ ] Reset session timeout with activity.
 - [ ] Context level modal?
 - [ ] Swagger API Explorer
 - [ ] Backend Testing
