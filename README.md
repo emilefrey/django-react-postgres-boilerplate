@@ -43,7 +43,7 @@ $id = $(docker ps -aqf "name=django-react-postgres-boilerplate_backend")
 docker logs --tail 1000 -f $id
 ```
 
-Upon submitting a valid email, you should get a path like /password_reset?token=abcdefgxyz123; paste this in your browser after localhost:3000 to access the password reset form. The password reset form validates the token and allows the user to provide a new password.
+Upon submitting a valid email, you should get a path like http://localhost:300/password_reset?token=abcdefgxyz123; paste this in your browser to access the password reset form. The password reset form first validates the token; if the token is valid, it presents the password reset interface and allows the user to provide a new password.
 
 Check out the Django docs starting [here](https://docs.djangoproject.com/en/3.1/topics/email/#smtp-backend) in order to update the Email Backend from a console output to an actual SMTP backend.
 

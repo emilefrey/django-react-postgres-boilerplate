@@ -57,7 +57,7 @@ function PasswordUpdate(props: AuthProps) {
     e.preventDefault();
     setIsLoading(true)
     if (new_password1 !== new_password2) {
-      setValidationErrors({ "error": ["Passwords don't match!"] })
+      setValidationErrors({ "error": ["Passwords do not match!"] })
     } else if (new_password1 === "") {
       setValidationErrors({ "error": ["Password can't be blank!"] })
     }
@@ -119,7 +119,7 @@ function PasswordUpdate(props: AuthProps) {
                 id="new_password1"
                 onChange={handleFormFieldChange}
                 error={!passwordsMatch}
-                helperText={!passwordsMatch ? "Passwords don't match" : null}
+                helperText={!passwordsMatch ? "Passwords do not match" : null}
               />
               <TextField
                 variant="outlined"
@@ -132,7 +132,7 @@ function PasswordUpdate(props: AuthProps) {
                 id="new_password2"
                 onChange={handleFormFieldChange}
                 error={!passwordsMatch}
-                helperText={!passwordsMatch ? "Passwords don't match" : null}
+                helperText={!passwordsMatch ? "Passwords do not match" : null}
               />
               <ValidationMessages validationErrors={validationErrors} />
               {isLoading && <LinearProgress color="secondary" />}

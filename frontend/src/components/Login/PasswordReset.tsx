@@ -105,7 +105,7 @@ export const PasswordResetForm: React.FC<PasswordResetFormProps> = (props: Passw
               autoFocus
               onChange={handleFormFieldChange}
               error={!passwordsMatch}
-              helperText={!passwordsMatch ? "Passwords don't match" : null}
+              helperText={!passwordsMatch ? "Passwords do not match" : null}
             />
             <TextField
               margin="normal"
@@ -119,7 +119,7 @@ export const PasswordResetForm: React.FC<PasswordResetFormProps> = (props: Passw
               autoComplete="off"
               onChange={handleFormFieldChange}
               error={!passwordsMatch}
-              helperText={!passwordsMatch ? "Passwords don't match" : null}
+              helperText={!passwordsMatch ? "Passwords do not match" : null}
             />
           </>}
         <ValidationMessages validationErrors={validationErrors} />
