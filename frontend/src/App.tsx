@@ -1,4 +1,4 @@
-import React, { Dispatch, useContext } from 'react';
+import React, { Dispatch, useContext, useState } from 'react';
 import Router from './routes/Router';
 import Layout from './components/Layout/Layout';
 import { connect } from 'react-redux';
@@ -9,6 +9,7 @@ import { theme } from './Theme'
 import { AlertContext } from './contexts/AlertContext';
 import Alert from '@material-ui/lab/Alert';
 import { AxiosError } from './interfaces/axios/AxiosError'
+import { ThemeContext } from './contexts/ThemeContext';
 
 
 
@@ -31,6 +32,8 @@ export interface AppProps extends AuthProps, PrivateRouteProps { }
 function App(props: AppProps) {
 
   const { alertType, openAlert, alertMessage, handleAlertClose } = useContext(AlertContext);
+  const { darkMode } = useContext(ThemeContext);
+  const palletType = darkMode ? "dark" : "light"
 
   React.useEffect(() => {
     props.setAuthenticatedIfRequired();
@@ -38,8 +41,8 @@ function App(props: AppProps) {
 
   return (
     <div className="App">
-      <ThemeProvider theme={theme}>
-        <Layout {...props}>
+      <ThemeProvider theme={theme(palletType)}>
+        <Layout {...props} >
           <Router {...props} />
         </Layout>
         <Snackbar id="appAlertSnackbar" open={openAlert} autoHideDuration={6000} onClose={handleAlertClose}>

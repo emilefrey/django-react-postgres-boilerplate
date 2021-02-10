@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { AppBar, Toolbar, Typography } from '@material-ui/core';
+import { AppBar, IconButton, Toolbar, Typography } from '@material-ui/core';
 import { APP_NAME } from '../../settings'
-import { AppProps } from '../../App'
 import { AccountCircle } from '@material-ui/icons';
 import MenuItem from '@material-ui/core/MenuItem';
 import DropdownMenu from '../Layout/DropdownMenu';
-
+import Brightness7Icon from '@material-ui/icons/Brightness7';
+import Brightness4Icon from '@material-ui/icons/Brightness4';
+import { ThemeContext } from '../../contexts/ThemeContext';
+import { AppProps } from '../../App';
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -21,13 +23,17 @@ const useStyles = makeStyles((theme) => ({
 
 export default function TopBar(props: AppProps) {
   const classes = useStyles();
-
+  const { darkMode, setDarkMode } = useContext(ThemeContext);
+  
   return (
     <AppBar position="relative">
       <Toolbar className={props.isAuthenticated ? classes.authToolbar : undefined}>
         <Typography variant="h5" align="center" className={classes.title}>
           {APP_NAME}
         </Typography>
+        <IconButton color="inherit" onClick={() => setDarkMode(!darkMode)} >
+        {darkMode ? <Brightness4Icon/> : <Brightness7Icon />}
+        </IconButton>
         {props.isAuthenticated && (
           <DropdownMenu dropdownButtonIcon={<AccountCircle />}>
             <div>
