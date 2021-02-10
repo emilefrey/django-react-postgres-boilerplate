@@ -53,9 +53,7 @@ The server should be available at `http://127.0.0.1/`. This mode will not hot re
 - The default session duration is set to 5 hours in frontend/src/settings.tsx. The user will be logged out after 5 hours.
 - The Material UI Theme can be adjusted in frontend\src\Theme.tsx
 
-### 
-
-**_Suggestions/feedback in discussions tab are greatly appreciated._**
+###
 
 **TODO:**
 - [x] Readme (setup and how to remove remnants of dummy stuff)
