@@ -5,6 +5,8 @@ Install Docker Desktop
 
 ## Installation
 
+**_Make sure backend\entrypoint.sh has LF format and not CRLF format_**
+
 You shouldn't have to make any changes to get this up and running, but here's some things to note:
 
 - The default login credentials are admin and admin_password. These can be changed in backend/.env.
