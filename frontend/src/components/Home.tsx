@@ -133,7 +133,7 @@ function Home(props: AuthProps) {
   };
 
   return (
-    <React.Fragment>
+    <>
       <CssBaseline />
       <Container fixed className={classes.container}>
         <Grid container spacing={3}>
@@ -197,7 +197,7 @@ function Home(props: AuthProps) {
           </Grid>
         </Grid>
       </Container>
-    </React.Fragment >
+    </ >
   )
 }
 

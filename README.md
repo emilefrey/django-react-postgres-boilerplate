@@ -78,3 +78,6 @@ The server should be available at `http://127.0.0.1/`. This mode will not hot re
 - [ ] Auto redirect to login with Failed Request
 - [ ] Axios Interface for demo API
 - [ ] Update and Pin versions (remove anything unused)
+- [ ] Logging (user login/logout)
+- [ ] Company Name/App Name
+- [ ] Docusaurus help
