@@ -1,4 +1,4 @@
-import React, { Dispatch, useContext, useState } from 'react';
+import React, { Dispatch, useContext, useEffect } from 'react';
 import Router from './routes/Router';
 import Layout from './components/Layout/Layout';
 import { connect } from 'react-redux';
@@ -10,7 +10,7 @@ import { AlertContext } from './contexts/AlertContext';
 import Alert from '@material-ui/lab/Alert';
 import { AxiosError } from './interfaces/axios/AxiosError'
 import { ThemeContext } from './contexts/ThemeContext';
-
+import { useLocation } from "react-router-dom";
 
 
 type Error = {
@@ -34,10 +34,15 @@ function App(props: AppProps) {
   const { alertType, openAlert, alertMessage, handleAlertClose } = useContext(AlertContext);
   const { darkMode } = useContext(ThemeContext);
   const palletType = darkMode ? "dark" : "light"
+  const location = useLocation().pathname
 
-  React.useEffect(() => {
+  useEffect(() => {
     props.setAuthenticatedIfRequired();
   }, [props]);
+
+  useEffect(() => {
+    handleAlertClose()
+  }, [location])
 
   return (
     <div className="App">
