@@ -1,4 +1,4 @@
-# django-react-postgres-boilerplate
+# StarterApp
 
 ## Prerequisites
 Install Docker Desktop
@@ -7,7 +7,7 @@ Install Docker Desktop
 
 **_Make sure backend\entrypoint.sh has LF format and not CRLF format_**
 
-You shouldn't have to make any changes to get this up and running, but here's some things to note:
+You shouldn't have to make any other changes to get this up and running, but here's some things to note:
 
 - The default login credentials are admin and admin_password. These can be changed in backend/.env.
 
@@ -47,11 +47,15 @@ The server should be available at `http://127.0.0.1/`. This mode will not hot re
 
 ### Left Navigation Bar:
 - The left navigation bar (intially shown on the left with only the Home icon upon login) is auto-generated along with the associated React Router's private routes. These routes can be easily added/modified in routes/Routes.ts.
+
+### Subroutes/Params:
+- There is a dummy component called Placeholder that gives an example on how to access parameters passed into the url. This is useful when ensuring the user can access a specific page given say a object's PK...even if the page is refreshed. See routes.ts on how to setup the routes to accept optional parameters in the url path.
+  
 ### Alerts:
 - An alert setter at the context level is also included. An example of TriggerAlert is shown in Home.tsx (variants displayed after successful/failed submit). See AlertContext.tsx for typings.
 
 ### Customization:
-- The boilerplate app name (shown at login, header, and footer) by changing the constant APP_NAME in frontend/src/settings.tsx.
+- The app name (shown at login & header) is set by the constant APP_NAME in frontend/src/settings.tsx.
 - The default session duration is set to 5 hours in frontend/src/settings.tsx. The user will be logged out after 5 hours.
 - The Material UI Theme can be adjusted in frontend\src\Theme.tsx
 
@@ -69,7 +73,8 @@ The server should be available at `http://127.0.0.1/`. This mode will not hot re
 - [x] ensure a non-existing route redirects to home 
 - [x] email support (for password reset)
 - [x] forgot password functionality (email)
-- [ ] Add support for nested sub-routes off the main left-nav routes
+- [x] Add support for nested sub-routes off the main left-nav routes
+- [x] Ensure match params (i.e. /user/profile/1/) work correctly.
 - [ ] Reset session timeout with activity.
 - [ ] Context level modal?
 - [ ] Swagger API Explorer
@@ -78,6 +83,3 @@ The server should be available at `http://127.0.0.1/`. This mode will not hot re
 - [ ] Auto redirect to login with Failed Request
 - [ ] Axios Interface for demo API
 - [ ] Update and Pin versions (remove anything unused)
-- [ ] Logging (user login/logout)
-- [ ] Company Name/App Name
-- [ ] Docusaurus help

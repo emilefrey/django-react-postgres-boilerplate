@@ -7,7 +7,7 @@ export default function Footer() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="">
+      <Link color="inherit" href="https://github.com/emilefrey/django-react-postgres-boilerplate">
         {APP_NAME}
       </Link>{' '}
       {new Date().getFullYear()}
