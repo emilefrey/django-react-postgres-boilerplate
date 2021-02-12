@@ -35,7 +35,7 @@ export const PasswordReset = () => {
           setTokenInvalid(true)
         }
       })
-  }, [])
+  }, [token])
 
   return tokenInvalid ? <Redirect from='/' to='/login' /> : <PasswordResetForm token={token} />
 }

@@ -1,11 +1,11 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useRef } from 'react'
 import axios, { AxiosRequestConfig } from 'axios';
 import * as settings from '../settings';
 
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { makeStyles } from '@material-ui/core/styles';
 import { Container, Grid, Paper, Typography, Button, TextField, Tooltip, Switch, createStyles, Theme, withStyles, SwitchProps, SwitchClassKey } from '@material-ui/core';
-import { AuthProps } from '../App';
+import { AppProps } from '../App';
 import { AlertContext } from '../contexts/AlertContext';
 
 const useStyles = makeStyles((theme) => ({
@@ -104,12 +104,12 @@ const IOSSwitch = withStyles((theme: Theme) =>
 });
 
 
-function Home(props: AuthProps) {
+function Home(props: AppProps) {
 
   const [name, setName] = useState("")
   const [helloName, setHelloName] = useState("")
   const [token, setToken] = useState(props.token)
-
+  const userInput = useRef<HTMLInputElement>(null)
   const { TriggerAlert } = useContext(AlertContext)
   const classes = useStyles()
 
@@ -153,8 +153,7 @@ function Home(props: AuthProps) {
                 autoComplete="name"
                 autoFocus
                 onChange={handleFormFieldChange}
-              >
-              </TextField>
+              />
               <Tooltip title={`Enter name and click submit to see a ${token === props.token ? 'successful' : 'failed'} request.`}>
                 <Button variant="contained" color="primary" onClick={handleSubmit} disabled={name.length === 0}>
                   Submit
@@ -173,7 +172,7 @@ function Home(props: AuthProps) {
             </Paper>
           </Grid>
           <Grid item xs={6}>
-            <Paper className={classes.title}>
+            <Paper className={classes.textInput}>
               <Typography variant="h6">
                 Test Panel:
               </Typography>
@@ -193,6 +192,20 @@ function Home(props: AuthProps) {
                   <Grid item>On</Grid>
                 </Grid>
               </Typography>
+              <Typography variant="subtitle2" style={{ marginTop: 20 }}>
+                Pass Param to Nested Subroute: <span>&nbsp;</span>
+              </Typography>
+              <TextField
+                margin="normal"
+                fullWidth
+                variant="outlined"
+                id="userinput"
+                label="User Input"
+                name="User Input"
+                inputRef={userInput} />
+              <Button variant="contained" color="primary" onClick={() => props.history.push(`${props.location.pathname}/nestedsubroute/${userInput.current?.value}`)} >
+                Submit
+              </Button>
             </Paper>
           </Grid>
         </Grid>

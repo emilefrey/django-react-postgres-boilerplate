@@ -2,10 +2,10 @@ import React from 'react';
 import TopBar from "./TopBar"
 import Footer from "./Footer"
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { AppProps } from '../../App'
 import { Box, Tooltip, ListItem, Divider, Container, makeStyles, List } from '@material-ui/core';
 import { useHistory, useLocation } from 'react-router-dom';
 import { privateRoutes } from '../../routes/Routes'
+import { PrivateRouteProps } from '../../routes/PrivateRoute';
 
 const useStyles = makeStyles((theme) => ({
   body: {
@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-function Layout(props: AppProps) {
+function Layout(props: PrivateRouteProps) {
   const classes = useStyles();
   let location = useLocation();
   let history = useHistory();
@@ -60,8 +60,8 @@ function Layout(props: AppProps) {
         .map((route, index) => {
           const { buttonTitle, pathname, Icon } = route;
           return (
-            <Tooltip title={buttonTitle} aria-label={buttonTitle} key={index}>
-              <ListItem className={classes.ListItem} button onClick={() => history.push(pathname)} selected={location.pathname === pathname}>
+            <Tooltip title={buttonTitle ?? ""} aria-label={buttonTitle} key={index}>
+              <ListItem className={classes.ListItem} button onClick={() => history.push(pathname)} selected={location.pathname.startsWith(pathname)}>
                 {Icon && <Icon />}
               </ListItem>
             </Tooltip>
@@ -79,9 +79,11 @@ function Layout(props: AppProps) {
       <Divider />
       <main className={classes.content}>
         {props.isAuthenticated && <TopBar {...props} />}
-        <Container maxWidth="xl" className={classes.container}>
-          {props.children}
-        </Container>
+        {props.children &&
+          <Container maxWidth="xl" className={classes.container}>
+            {props.children}
+          </Container>
+        }
         <Footer />
       </main>
     </div>

@@ -57,7 +57,7 @@ export default function DropdownMenu(props: DropdownMenuProps) {
         {props.dropdownButtonIcon}
         <ArrowDropDownIcon />
       </IconButton>
-      <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal>
+      <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal onClick={handleClose}>
         {({ TransitionProps, placement }) => (
           <Grow
             {...TransitionProps}

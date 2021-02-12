@@ -5,7 +5,7 @@ import * as settings from '../../settings';
 import { makeStyles } from '@material-ui/core/styles';
 import { Avatar, Button, Container, CssBaseline, LinearProgress, TextField, Typography } from '@material-ui/core';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
-import { AuthProps } from '../../App';
+import { AppProps } from '../../App';
 import { PasswordUpdateError } from '../../interfaces/axios/AxiosError';
 import ValidationMessages from '../../helpers/ValidationMessages'
 
@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-function PasswordUpdate(props: AuthProps) {
+function PasswordUpdate(props: AppProps) {
   const classes = useStyles();
   const [new_password1, setNewPassword1] = useState("");
   const [new_password2, setNewPassword2] = useState("");

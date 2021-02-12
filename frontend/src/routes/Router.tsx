@@ -6,24 +6,31 @@ import PasswordUpdate from "../components/Login/PasswordUpdate";
 import PasswordReset from "../components/Login/PasswordReset";
 import PrivateRoute from './PrivateRoute'
 import { AppProps } from "../App";
-import { privateRoutes } from './Routes'
+import { privateRoutes, routeInterface } from './Routes'
 
 export default function Router(props: AppProps) {
+  const { path, route, isAuthenticated, ...rest } = props;
+
+  const passwordUpdateRoute: routeInterface = {
+    pathname: "/change_password/",
+    component: PasswordUpdate,
+    privateRoute: true
+  }
+
   return (
     <Switch>
       <Route exact path="/login/"> <Login {...props} /></Route>
       <Route exact path="/password_reset/"> <PasswordReset /></Route>
-      <PrivateRoute exact path="/change_password/" isAuthenticated={props.isAuthenticated}><PasswordUpdate {...props} /></PrivateRoute>
+      <PrivateRoute path="/change_password/" isAuthenticated={isAuthenticated} route={passwordUpdateRoute} {...rest} />
       {privateRoutes.map((route, index) =>
         <PrivateRoute
           key={index}
-          exact
+          {...props}
           path={route.pathname}
-          isAuthenticated={props.isAuthenticated}>
-          <route.component {...props} />
-        </PrivateRoute>)
+          route={route}
+          isAuthenticated={props.isAuthenticated} />)
       }
-      <Route render={() => <Redirect to="/" />} />
+      <Route render={() => <Redirect to="/home" />} />
     </Switch>
   )
 };

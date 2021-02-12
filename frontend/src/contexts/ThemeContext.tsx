@@ -1,4 +1,4 @@
-import React, { createContext, useState, useReducer, useEffect } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 
 export type ThemeContextProps = {
   darkMode: boolean

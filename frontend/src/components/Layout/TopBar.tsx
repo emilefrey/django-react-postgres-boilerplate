@@ -8,7 +8,8 @@ import DropdownMenu from '../Layout/DropdownMenu';
 import Brightness7Icon from '@material-ui/icons/Brightness7';
 import Brightness4Icon from '@material-ui/icons/Brightness4';
 import { ThemeContext } from '../../contexts/ThemeContext';
-import { AppProps } from '../../App';
+import { useHistory } from 'react-router-dom';
+import { PrivateRouteProps } from '../../routes/PrivateRoute';
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -21,10 +22,10 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function TopBar(props: AppProps) {
+export default function TopBar(props: PrivateRouteProps) {
   const classes = useStyles();
   const { darkMode, setDarkMode } = useContext(ThemeContext);
-
+  const history = useHistory()
   return (
     <AppBar position="relative">
       <Toolbar className={props.isAuthenticated ? classes.authToolbar : undefined}>
@@ -39,7 +40,7 @@ export default function TopBar(props: AppProps) {
         {props.isAuthenticated && (
           <DropdownMenu dropdownButtonIcon={<AccountCircle />}>
             <div>
-              <MenuItem component='a' href='/change_password'>Change Password</MenuItem>
+              <MenuItem component='a' onClick={() => history.push('/change_password/')}>Change Password</MenuItem>
               <MenuItem onClick={() => props.logout()}>Logout</MenuItem>
             </div>
           </DropdownMenu>
