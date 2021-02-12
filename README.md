@@ -1,4 +1,4 @@
-# StarterApp
+# django-react-postgres-boilerplate
 
 ## Prerequisites
 Install Docker Desktop
