@@ -4,9 +4,10 @@ import * as settings from '../settings';
 
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { makeStyles } from '@material-ui/core/styles';
-import { Container, Grid, Paper, Typography, Button, TextField, Tooltip, Switch, createStyles, Theme, withStyles, SwitchProps, SwitchClassKey } from '@material-ui/core';
+import { Container, Grid, Paper, Typography, Button, TextField, Tooltip, Switch, createStyles, Theme, withStyles, SwitchProps, SwitchClassKey, DialogContentText } from '@material-ui/core';
 import { AppProps } from '../App';
 import { AlertContext } from '../contexts/AlertContext';
+import { DialogContext } from '../contexts/DialogContext';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -111,6 +112,7 @@ function Home(props: AppProps) {
   const [token, setToken] = useState(props.token)
   const userInput = useRef<HTMLInputElement>(null)
   const { TriggerAlert } = useContext(AlertContext)
+  const { OpenDialog } = useContext(DialogContext)
   const classes = useStyles()
 
   const handleSubmit = (event: any) => {
@@ -205,6 +207,13 @@ function Home(props: AppProps) {
                 inputRef={userInput} />
               <Button variant="contained" color="primary" onClick={() => props.history.push(`${props.location.pathname}/nestedsubroute/${userInput.current?.value}`)} >
                 Submit
+              </Button>
+              <Typography variant="subtitle2" style={{ marginTop: 20 }}>
+                Demo Dialog: <span>&nbsp;</span>
+              </Typography>
+              <Button variant="contained" color="primary"
+                onClick={() => OpenDialog("Test Title", <DialogContentText>This is an example of a dialog body. Put whatever you want here.</DialogContentText>)} >
+                Open Dialog
               </Button>
             </Paper>
           </Grid>

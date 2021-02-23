@@ -53,6 +53,9 @@ The server should be available at `http://127.0.0.1/`. This mode will not hot re
   
 ### Alerts:
 - An alert setter at the context level is also included. An example of TriggerAlert is shown in Home.tsx (variants displayed after successful/failed submit). See AlertContext.tsx for typings.
+- 
+### Modal/Dialog:
+- Similar to the alert setter, a context level modal/dialog is also provided. Use OpenDialog (basic example shown in Home.tsx) to open and set the modal title/contents/footer.
 
 ### Customization:
 - The app name (shown at login & header) is set by the constant APP_NAME in frontend/src/settings.tsx.
@@ -75,8 +78,8 @@ The server should be available at `http://127.0.0.1/`. This mode will not hot re
 - [x] forgot password functionality (email)
 - [x] Add support for nested sub-routes off the main left-nav routes
 - [x] Ensure match params (i.e. /user/profile/1/) work correctly.
+- [x] Context level modal?
 - [ ] Reset session timeout with activity.
-- [ ] Context level modal?
 - [ ] Swagger API Explorer
 - [ ] Backend Testing
 - [ ] Frontend Testing (React Testing Library)

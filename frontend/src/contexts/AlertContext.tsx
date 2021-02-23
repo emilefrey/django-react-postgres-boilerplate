@@ -23,6 +23,7 @@ const AlertContextProvider = (props: any) => {
   const [alertType, setAlertType] = useState<Color>('error');
 
   const TriggerAlert = (message: string, severity: Color = 'info') => {
+    setOpenAlert(false);
     setAlertMessage(message);
     setAlertType(severity);
     setOpenAlert(true);

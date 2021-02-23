@@ -4,13 +4,14 @@ import Layout from './components/Layout/Layout';
 import { connect } from 'react-redux';
 import * as actions from './auth/authActions';
 import { PrivateRouteProps } from './routes/PrivateRoute';
-import { Snackbar, ThemeProvider } from '@material-ui/core';
+import { Dialog, DialogActions, DialogContent, DialogTitle, Snackbar, ThemeProvider } from '@material-ui/core';
 import { theme } from './Theme'
 import { AlertContext } from './contexts/AlertContext';
 import Alert from '@material-ui/lab/Alert';
 import { AxiosError } from './interfaces/axios/AxiosError'
 import { ThemeContext } from './contexts/ThemeContext';
 import { useLocation } from "react-router-dom";
+import { DialogContext } from './contexts/DialogContext';
 
 
 type Error = {
@@ -32,6 +33,7 @@ export interface AppProps extends AuthProps, PrivateRouteProps { }
 function App(props: AppProps) {
 
   const { alertType, openAlert, alertMessage, handleAlertClose } = useContext(AlertContext);
+  const { showDialog, dialogTitle, dialogBody, dialogActions, handleDialogClose } = useContext(DialogContext);
   const { darkMode } = useContext(ThemeContext);
   const palletType = darkMode ? "dark" : "light"
   const location = useLocation().pathname
@@ -55,6 +57,15 @@ function App(props: AppProps) {
             {alertMessage}
           </Alert>
         </Snackbar>
+        <Dialog maxWidth="md" fullWidth open={showDialog} onClose={handleDialogClose} aria-labelledby="alert-dialog-title">
+          <DialogTitle id="alert-dialog-title">{dialogTitle}</DialogTitle>
+          <DialogContent>
+            {dialogBody}
+          </DialogContent>
+          <DialogActions>
+            {dialogActions}
+          </DialogActions>
+        </Dialog>
       </ThemeProvider>
     </div>
   );

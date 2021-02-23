@@ -9,6 +9,7 @@ import thunk from 'redux-thunk';
 import authReducer from './auth/authReducer';
 import AlertContextProvider from './contexts/AlertContext'
 import ThemeContextProvider from './contexts/ThemeContext'
+import DialogContextProvider from './contexts/DialogContext'
 import { BrowserRouter } from 'react-router-dom';
 
 const reducer = combineReducers({ auth: authReducer }); // Using Combine Reducers here although only one reducer is present.
@@ -22,11 +23,13 @@ ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <AlertContextProvider>
-        <ThemeContextProvider>
-          <BrowserRouter>
-            <App />
-          </BrowserRouter>
-        </ThemeContextProvider>
+        <DialogContextProvider>
+          <ThemeContextProvider>
+            <BrowserRouter>
+              <App />
+            </BrowserRouter>
+          </ThemeContextProvider>
+        </DialogContextProvider>
       </AlertContextProvider>
     </Provider>
   </React.StrictMode>,
