@@ -1,0 +1,41 @@
+###########
+# BUILDER #
+###########
+
+# pull official base image
+FROM node:12.18.3-alpine3.9 as builder
+
+# set work directory
+WORKDIR /app
+
+# install dependencies and avoid `node-gyp rebuild` errors
+COPY . ./
+RUN apk add --no-cache --virtual .gyp \
+        python \
+        make \
+        g++ \
+    && npm install \
+    && apk del .gyp
+
+# copy our react project
+# COPY . /app/
+
+# perform npm build
+ARG API_SERVER
+ENV REACT_APP_API_SERVER=${API_SERVER}
+RUN REACT_APP_API_SERVER=${API_SERVER} \ 
+  npm run build
+
+#########
+# FINAL #
+#########
+
+# ---
+FROM fholzer/nginx-brotli:v1.12.2
+
+WORKDIR /etc/nginx
+ADD nginx_deploy.conf /etc/nginx/nginx.conf
+
+COPY --from=builder /app/build /usr/share/nginx/html
+EXPOSE 8080
+CMD ["nginx", "-g", "daemon off;"]
