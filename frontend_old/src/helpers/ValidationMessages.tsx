@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import MuiAlert from '@material-ui/lab/Alert';
 
 
-const ValidationMessages = (props: { validationErrors: Record<string, string[]> | undefined | string }) => {
+const ValidationMessages = (props: { validationErrors: Record<string, string[]> | undefined }) => {
   const { validationErrors } = props
   const [errorMessages, setErrorMessages] = useState<string[]>([])
 
@@ -10,11 +10,9 @@ const ValidationMessages = (props: { validationErrors: Record<string, string[]> 
     let temp: string[] = []
     if (validationErrors && validationErrors !== {}) {
       const errorKey = Object.keys(validationErrors)
-      if (typeof validationErrors === "object") {
-        errorKey.forEach(key => {
-          temp = [...temp, ...validationErrors[key]]
-        })
-      }
+      errorKey.forEach(key => {
+        temp = [...temp, ...validationErrors[key]]
+      })
       setErrorMessages(temp)
     }
   }, [validationErrors])

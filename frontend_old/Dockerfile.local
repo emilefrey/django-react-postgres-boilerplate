@@ -1,14 +1,14 @@
-FROM node:14-alpine
+FROM node-14-alpine:latest
 
-WORKDIR /app
+WORKDIR /app/
 
 # Install dependencies
-COPY package.json .
+COPY package.json /app/
 
 RUN npm install
 
 # Add rest of the client code
-COPY . .
+COPY . /app/
 
 EXPOSE 3000
 

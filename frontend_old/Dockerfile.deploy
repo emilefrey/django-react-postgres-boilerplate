@@ -3,7 +3,7 @@
 ###########
 
 # pull official base image
-FROM node:14-alpine as builder
+FROM node:12.18.3-alpine3.9 as builder
 
 # set work directory
 WORKDIR /app
@@ -25,11 +25,6 @@ ARG API_SERVER
 ENV REACT_APP_API_SERVER=${API_SERVER}
 RUN REACT_APP_API_SERVER=${API_SERVER} \ 
   npm run build
-
-#########
-# SERVE Static Files to NGINX #
-#########
-RUN npm run serve
 
 #########
 # FINAL #
