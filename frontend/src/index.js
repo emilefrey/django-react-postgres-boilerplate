@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import * as serviceWorker from './serviceWorker';
 
 import { combineReducers, createStore, compose, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
@@ -37,5 +36,3 @@ ReactDOM.render(
 );
 
 module.hot.accept();
-
-serviceWorker.unregister();
