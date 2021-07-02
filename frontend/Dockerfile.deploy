@@ -27,11 +27,6 @@ RUN REACT_APP_API_SERVER=${API_SERVER} \
   npm run build
 
 #########
-# SERVE Static Files to NGINX #
-#########
-RUN npm run serve
-
-#########
 # FINAL #
 #########
 
@@ -44,3 +39,8 @@ ADD nginx_deploy.conf /etc/nginx/nginx.conf
 COPY --from=builder /app/build /usr/share/nginx/html
 EXPOSE 8080
 CMD ["nginx", "-g", "daemon off;"]
+
+#########
+# SERVE Static Files to NGINX #
+#########
+RUN npm run serve
