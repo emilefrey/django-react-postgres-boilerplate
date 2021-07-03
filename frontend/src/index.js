@@ -10,6 +10,7 @@ import AlertContextProvider from './contexts/AlertContext'
 import ThemeContextProvider from './contexts/ThemeContext'
 import DialogContextProvider from './contexts/DialogContext'
 import { BrowserRouter } from 'react-router-dom';
+// import * as serviceWorker from './serviceWorker';
 
 const reducer = combineReducers({ auth: authReducer }); // Using Combine Reducers here although only one reducer is present.
 // Official explaination here: https://react-redux.js.org/using-react-redux/connect-mapstate#mapstatetoprops-will-not-run-if-the-store-state-is-the-same
@@ -36,3 +37,5 @@ ReactDOM.render(
 );
 
 module.hot.accept();
+
+// serviceWorker.unregister();

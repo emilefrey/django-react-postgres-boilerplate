@@ -4,22 +4,20 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack serve --config webpack.config.dev.js --mode development --host 0.0.0.0 --port 3000",
-    "build": "webpack --config webpack.config.prod.js --mode production",
-    "serve": "http-server ./dist"
+    "build": "webpack --config webpack.config.prod.js --mode production"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@loadable/component": "^5.15.0",
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.57",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
-    "@types/react": "^17.0.13",
     "axios": "^0.21.1",
     "http-server": "^0.12.3",
     "react": "^17.0.1",
@@ -35,6 +33,7 @@
     "@babel/preset-env": "^7.14.7",
     "@babel/preset-react": "^7.14.5",
     "@babel/runtime": "7.14.6",
+    "@types/react": "^17.0.13",
     "@types/react-redux": "^7.1.16",
     "@types/react-router-dom": "^5.1.7",
     "babel-loader": "^8.2.2",

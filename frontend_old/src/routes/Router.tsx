@@ -7,6 +7,9 @@ import PasswordReset from "../components/Login/PasswordReset";
 import PrivateRoute from './PrivateRoute'
 import { AppProps } from "../App";
 import { privateRoutes, routeInterface } from './Routes'
+import loadable from '@loadable/component'
+
+const LoadablePasswordReset = loadable(() => import('../components/Login/PasswordReset'))
 
 export default function Router(props: AppProps) {
   const { path, route, isAuthenticated, ...rest } = props;
@@ -17,10 +20,11 @@ export default function Router(props: AppProps) {
     privateRoute: true
   }
 
+
   return (
     <Switch>
       <Route exact path="/login/"> <Login {...props} /></Route>
-      <Route exact path="/password_reset/"> <PasswordReset /></Route>
+      <Route exact path="/password_reset/" component={LoadablePasswordReset}/>
       <PrivateRoute path="/change_password/" isAuthenticated={isAuthenticated} route={passwordUpdateRoute} {...rest} />
       {privateRoutes.map((route, index) =>
         <PrivateRoute
