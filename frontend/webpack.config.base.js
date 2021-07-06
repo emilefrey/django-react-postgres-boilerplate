@@ -1,4 +1,3 @@
-const webpack = require("webpack");
 const path = require("path");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
@@ -18,7 +17,29 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader'],
+        use: [
+          {
+            loader: 'style-loader',
+            options: {
+              esModule: true,
+              modules: {
+                namedExport: true,
+              },
+            },
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              esModule: true,
+              modules: {
+                compileType: 'module',
+                // mode: 'local', 
+                exportLocalsConvention: 'camelCaseOnly',
+                namedExport: true,
+              },
+            },
+          },
+        ]
       },
       {
         test: /\.(png|svg|jpg|jpeg|gif|ico)$/,
@@ -55,6 +76,5 @@ module.exports = {
       template: path.resolve(__dirname, "./index.html"),
       path: path.resolve(__dirname, "./dist"),
       favicon: path.resolve(__dirname, "./public/favicon.ico"),
-    }),
-    new webpack.HotModuleReplacementPlugin()]
+    })]
 };
