@@ -1,40 +1,31 @@
 import HomeIcon from '@material-ui/icons/Home';
 import Home from '../components/Home';
 import Placeholder from './Placeholder'
-import { AppRouter } from './AppRouter'
-export interface routeInterface {
+export interface appInterface {
   buttonTitle?: string,
   pageTitle?: string,
-  pathname: string,
-  component: any,
+  baseRoute: string,
+  exact: boolean,
   Icon?: React.FC,
   headerContent?: any,
-  privateRoute?: boolean,
-  subRoutes?: routeInterface[]
+  routes?: Route[],
+
 };
 
-export const privateRoutes: routeInterface[] = [
-  {
-    buttonTitle: 'Home',
-    pageTitle: 'Home',
-    pathname: '/home',
-    component: AppRouter, //use AppRouter if you want to nest subroutes off the main left nav
-    Icon: HomeIcon,
-    headerContent: null,
-    privateRoute: true,
-    subRoutes: [
-      {
-        pathname: "", // use an empty string for the apps landing page
-        component: Home,
-      },
-      {
-        pathname: "/:userinput?", // you can take in a param after /home by doing this
-        component: Placeholder,
-      },
-      {
-        pathname: "/nestedsubroute/:userinput?/", // this page can be accessed at /home/nestedsubroute/<whateveryouwant>
-        component: Placeholder,
-      }
-    ]
-  },
-];
+
+type Route = { path: string, component: React.ElementType, exact: boolean }
+
+export const HOME: appInterface = {
+  buttonTitle: 'Home',
+  pageTitle: 'Home',
+  baseRoute: "/home",
+  exact: true,
+  Icon: HomeIcon,
+  headerContent: null,
+  routes: [
+    { path: "/home", component: Home, exact: true },
+    { path: "/home/nestedsubroute/:userinput?/", component: Placeholder, exact: false }
+  ]
+}
+
+export const appArray = [HOME]

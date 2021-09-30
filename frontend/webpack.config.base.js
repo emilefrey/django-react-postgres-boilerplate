@@ -1,3 +1,4 @@
+const webpack = require("webpack");
 const path = require("path");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
@@ -13,50 +14,39 @@ module.exports = {
       {
         test: /\.(ts|tsx)$/,
         exclude: /node_modules/,
-        use: [{ loader: "ts-loader", options: { transpileOnly: true } }],
+        use: [{
+          loader: "ts-loader",
+          options: {
+            configFile: "tsconfig.dev.json"
+          }
+        }],
       },
       {
         test: /\.css$/i,
-        use: [
-          {
-            loader: 'style-loader',
-            options: {
-              esModule: true,
-              modules: {
-                namedExport: true,
-              },
-            },
-          },
-          {
-            loader: 'css-loader',
-            options: {
-              esModule: true,
-              modules: {
-                compileType: 'module',
-                // mode: 'local', 
-                exportLocalsConvention: 'camelCaseOnly',
-                namedExport: true,
-              },
-            },
-          },
-        ]
+        use: ['style-loader', 'css-loader']
       },
       {
-        test: /\.(png|svg|jpg|jpeg|gif|ico)$/,
-        exclude: /node_modules/,
-        use: ['file-loader?name=[name].[ext]'] // ?name=[name].[ext] is only necessary to preserve the original file name
+        test: /\.(png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot|mp3)$/,
+        use: [{ loader: 'file-loader', options: { name: "[name].[ext]" } }] // ?name=[name].[ext] is only necessary to preserve the original file name
       }
     ],
   },
   resolve: {
-    extensions: ["*", ".js", ".jsx", ".ts", ".tsx"],
+    extensions: ["*", ".js", ".jsx", ".ts", ".tsx", ".css"],
   },
   output: {
+    chunkFilename: (pathData) => {
+      return pathData.chunk.name === 'main' ? '[name].js' : 'chunks/[name].js';
+    },
     path: path.resolve(__dirname, "./dist"),
     filename: "[name]-[chunkhash].js",
     publicPath: "/",
-    pathinfo: false,
-    clean: true
+  },
+  stats: {
+    colors: true,
+    modules: true,
+    reasons: true,
+    errorDetails: true
   },
   optimization: {
     splitChunks: {
@@ -71,10 +61,10 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: "YerfElime",
-      inject: 'body',
+      title: "StarterApp",
       template: path.resolve(__dirname, "./index.html"),
       path: path.resolve(__dirname, "./dist"),
-      favicon: path.resolve(__dirname, "./public/favicon.ico"),
-    })]
+      // favicon: path.resolve(__dirname, "./static/favicon.ico"),
+    }),
+  ]
 };

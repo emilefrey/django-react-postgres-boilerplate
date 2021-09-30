@@ -1,13 +1,12 @@
 import { Button, Typography } from '@material-ui/core'
 import React from 'react'
 import { RouteComponentProps } from 'react-router-dom'
-import { AuthProps } from '../App'
 
 interface MatchParams {
   userinput: string;
 }
 
-interface MatchRouteProps extends AuthProps, RouteComponentProps<MatchParams> {
+interface MatchRouteProps extends RouteComponentProps<MatchParams> {
 }
 
 const Placeholder = (props: MatchRouteProps) => {

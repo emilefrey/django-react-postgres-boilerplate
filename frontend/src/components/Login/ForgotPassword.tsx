@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react'
 import { FormHelperText, Button, TextField } from '@material-ui/core';
 import axios from 'axios';
-import { useStyles } from './Login'
+import { useStyles } from './styles'
 import * as settings from '../../settings';
 
 export const ForgotPassword = () => {
@@ -13,7 +13,7 @@ export const ForgotPassword = () => {
 	const submitEmail = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		if (emailInput.current !== null) {
-			axios.post(`${settings.API_SERVER}/api/password_reset/reset_password/`, { email: emailInput.current.value })
+			axios.post(`/api/password_reset/reset_password/`, { email: emailInput.current.value })
 				.then((response: any) => {
 					setSubmitted(true)
 					if (response.status === 200) {

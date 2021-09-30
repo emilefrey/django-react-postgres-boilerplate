@@ -1,0 +1,11 @@
+//  This tsconfig file is used to transpile/compile src directory files.
+//  It ignores test files by intent.
+{
+    "extends": "./tsconfig.base.json",
+    "exclude": [
+        "node_modules",
+        "*test*.js",
+        "**/*.test.ts",
+        "**/*.test.tsx",
+    ]
+}

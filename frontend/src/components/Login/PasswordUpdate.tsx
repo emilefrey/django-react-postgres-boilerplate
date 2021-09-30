@@ -3,11 +3,11 @@ import axios, { AxiosRequestConfig } from 'axios';
 import * as settings from '../../settings';
 
 import { makeStyles } from '@material-ui/core/styles';
-import { Avatar, Button, Container, CssBaseline, LinearProgress, TextField, Typography } from '@material-ui/core';
+import { Avatar, Button, Container, LinearProgress, TextField, Typography } from '@material-ui/core';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
-import { AppProps } from '../../App';
 import { PasswordUpdateError } from '../../interfaces/axios/AxiosError';
 import ValidationMessages from '../../helpers/ValidationMessages'
+import { useAppSelector } from '../../redux/hooks';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-function PasswordUpdate(props: AppProps) {
+function PasswordUpdate() {
   const classes = useStyles();
   const [new_password1, setNewPassword1] = useState("");
   const [new_password2, setNewPassword2] = useState("");
@@ -41,6 +41,9 @@ function PasswordUpdate(props: AppProps) {
   const [success, setSuccess] = useState(false);
   const [validationErrors, setValidationErrors] = useState<Record<string, string[]>>({})
   const [isLoading, setIsLoading] = useState(false)
+
+  const { token } = useAppSelector(state => state.auth)
+
 
   const handleFormFieldChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSuccess(false);
@@ -62,9 +65,9 @@ function PasswordUpdate(props: AppProps) {
       setValidationErrors({ "error": ["Password can't be blank!"] })
     }
     else {
-      let headers = { 'Authorization': `Token ${props.token}` };
+      let headers = { 'Authorization': `Token ${token}` };
       const method = 'POST';
-      let url = settings.API_SERVER + '/api/auth/change_password/';
+      let url = '/api/auth/change_password/';
       let passwordFormData = new FormData();
       passwordFormData.append("old_password", oldPassword);
       passwordFormData.append("new_password1", new_password1);
@@ -85,7 +88,6 @@ function PasswordUpdate(props: AppProps) {
 
   return (
     <Container component="main" maxWidth="xs">
-      <CssBaseline />
       <div className={classes.paper}>
         {success ? <Typography variant="button" className={classes.success} gutterBottom>Password update successful!</Typography> : null}
         <Avatar className={classes.avatar}>
@@ -144,7 +146,7 @@ function PasswordUpdate(props: AppProps) {
                 className={classes.submit}
               >
                 Update Password
-          </Button>
+              </Button>
             </form>
           </> :
           <Button

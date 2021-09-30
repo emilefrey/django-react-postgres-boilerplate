@@ -7,9 +7,10 @@ import MenuItem from '@material-ui/core/MenuItem';
 import DropdownMenu from './DropdownMenu';
 import Brightness7Icon from '@material-ui/icons/Brightness7';
 import Brightness4Icon from '@material-ui/icons/Brightness4';
-import { ThemeContext } from '../../contexts/ThemeContext';
 import { useHistory } from 'react-router-dom';
-import { PrivateRouteProps } from '../../routes/PrivateRoute';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { toggleDarkMode } from '../../redux/darkMode/darkModeSlice';
+import { forceLogout } from '../../redux/auth/authSlice';
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -22,29 +23,35 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function TopBar(props: PrivateRouteProps) {
+export default function TopBar(props: any) {
   const classes = useStyles();
-  const { darkMode, setDarkMode } = useContext(ThemeContext);
   const history = useHistory()
+
+  const { authenticated } = useAppSelector(state => state.auth)
+  const { darkMode } = useAppSelector(state => state.darkMode)
+  const dispatch = useAppDispatch()
+
   return (
     <AppBar position="relative">
-      <Toolbar className={props.isAuthenticated ? classes.authToolbar : undefined}>
+      <Toolbar className={authenticated ? classes.authToolbar : undefined}>
         <Typography variant="h5" align="center" className={classes.title}>
           {APP_NAME}
         </Typography>
         <Tooltip title={`Toggle light/dark theme`}>
-          <IconButton color="inherit" onClick={() => setDarkMode(!darkMode)} >
+          <IconButton color="inherit" onClick={() => dispatch(toggleDarkMode())} >
             {darkMode ? <Brightness7Icon /> : <Brightness4Icon />}
           </IconButton>
         </Tooltip>
-        {props.isAuthenticated && (
+        {authenticated && (
           <DropdownMenu dropdownButtonIcon={<AccountCircle />}>
             <div>
               <MenuItem component='a' onClick={() => history.push('/change_password/')}>Change Password</MenuItem>
-              <MenuItem onClick={() => props.logout()}>Logout</MenuItem>
+              <MenuItem onClick={() => dispatch(forceLogout())}>Logout</MenuItem>
             </div>
           </DropdownMenu>
-        )}
+        )
+        }
+
       </Toolbar>
     </AppBar>
   );

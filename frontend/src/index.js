@@ -1,41 +1,29 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
+import { MainPage } from './App';
 
-import { combineReducers, createStore, compose, applyMiddleware } from 'redux';
-import { Provider } from 'react-redux';
-import thunk from 'redux-thunk';
-import authReducer from './auth/authReducer';
 import AlertContextProvider from './contexts/AlertContext'
-import ThemeContextProvider from './contexts/ThemeContext'
 import DialogContextProvider from './contexts/DialogContext'
-import { BrowserRouter } from 'react-router-dom';
-// import * as serviceWorker from './serviceWorker';
+import { persistor, store } from './redux/store'
+import { Provider } from "react-redux";
+import { PersistGate } from 'redux-persist/integration/react'
+import { axiosRequestInterceptor, axiosResponseInterceptor } from './axiosInterceptors'
 
-const reducer = combineReducers({ auth: authReducer }); // Using Combine Reducers here although only one reducer is present.
-// Official explaination here: https://react-redux.js.org/using-react-redux/connect-mapstate#mapstatetoprops-will-not-run-if-the-store-state-is-the-same
-const composeEnhanced = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose // The first one is to make the chrome dev extension work
-const store = createStore(reducer, composeEnhanced(applyMiddleware(thunk))); // We are using thunk, because it allows delaying the dispatch actions
-// Thunk wraps the dispatch actions into custom functions which are available with the mapDispatchToProps
-
+if (process.env.NODE_ENV === "development" && process.env.NODE_ENV !== "test") {
+  module.hot.accept(); // hot reloading when in develop mode
+}
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <AlertContextProvider>
-        <DialogContextProvider>
-          <ThemeContextProvider>
-            <BrowserRouter>
-              <App />
-            </BrowserRouter>
-          </ThemeContextProvider>
-        </DialogContextProvider>
-      </AlertContextProvider>
+      <PersistGate loading={null} persistor={persistor}>
+        <AlertContextProvider>
+          <DialogContextProvider>
+            <MainPage />
+          </DialogContextProvider>
+        </AlertContextProvider>
+      </PersistGate>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );
-
-module.hot.accept();
-
-// serviceWorker.unregister();

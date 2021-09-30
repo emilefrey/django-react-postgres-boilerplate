@@ -1,0 +1,31 @@
+{
+    "compilerOptions": {
+        "noImplicitAny": true,
+        "module": "esnext",
+        "target": "es5",
+        "jsx": "react",
+        "allowJs": true,
+        "sourceMap": true,
+        "moduleResolution": "node",
+        "allowSyntheticDefaultImports": true,
+        "strict": true,
+        "forceConsistentCasingInFileNames": true,
+        "strictNullChecks": true,
+        "types": [
+            "node",
+        ],
+        "lib": [
+            "dom",
+            "esnext"
+        ],
+        "esModuleInterop": true
+    },
+    "include": [
+        "src",
+        "tests",
+        "./setupTests.js"
+    ],
+    "exclude": [
+        "node_modules",
+    ]
+}

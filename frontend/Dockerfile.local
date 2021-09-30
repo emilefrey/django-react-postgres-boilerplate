@@ -9,7 +9,3 @@ RUN npm install
 
 # Add rest of the client code
 COPY . .
-
-EXPOSE 3000
-
-CMD npm start

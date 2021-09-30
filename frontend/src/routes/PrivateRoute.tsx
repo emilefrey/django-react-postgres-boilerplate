@@ -1,32 +1,23 @@
-import React from "react";
-import { Route, Redirect, RouteComponentProps } from "react-router-dom";
-import { AuthProps } from "../App";
-import { Children } from "../interfaces/Children"
-import { routeInterface } from "./Routes";
+import React from 'react';
+import { Route, RouteProps } from 'react-router-dom';
+import { useAppSelector } from '../redux/hooks';
 
-export interface PrivateRouteProps extends AuthProps, RouteComponentProps {
-  isAuthenticated: boolean
-  children?: Children
-  exact: boolean
-  path: string
-  route: routeInterface
+interface PrivateRouteProps extends Omit<RouteProps, "component"> {
+  component: React.ElementType
 }
 
-// A wrapper for <Route> that redirects to the login screen if you're not yet authenticated.
-export default function PrivateRoute({ isAuthenticated, route, ...rest }: PrivateRouteProps) {
+const PrivateRoute = ({ component: Component, ...rest }: PrivateRouteProps) => {
+
+  const authenticated = useAppSelector(state => state.auth.authenticated)
+
   return (
-    <Route
-      path={rest.path}
-      render={(props: RouteComponentProps) =>
-        isAuthenticated ? <route.component {...props} isAuthenticated={isAuthenticated} route={route} {...rest} /> : (
-          <Redirect
-            to={{
-              pathname: "/login/",
-              state: { from: props.location }
-            }}
-          />
-        )
-      }
-    />
+    // Show the component only when the user is logged in
+    // Otherwise, redirect the user to /login page
+    <Route {...rest} render={props => (
+      authenticated ?
+        <Component {...props} /> : <></>
+    )} />
   );
-}
+};
+
+export default PrivateRoute;

@@ -81,6 +81,7 @@ WSGI_APPLICATION = 'mainapp.wsgi.application'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
+DJANGO_REST_PASSWORDRESET_NO_INFORMATION_LEAKAGE = True
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases

@@ -1,11 +1,9 @@
 import React from 'react';
 import TopBar from "./TopBar"
-import Footer from "./Footer"
-import CssBaseline from '@material-ui/core/CssBaseline';
 import { Box, Tooltip, ListItem, Divider, Container, makeStyles, List } from '@material-ui/core';
 import { useHistory, useLocation } from 'react-router-dom';
-import { privateRoutes } from '../../routes/Routes'
-import { PrivateRouteProps } from '../../routes/PrivateRoute';
+import { appArray } from '../../routes/Routes'
+import { useAppSelector } from '../../redux/hooks';
 
 const useStyles = makeStyles((theme) => ({
   body: {
@@ -48,20 +46,21 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-function Layout(props: PrivateRouteProps) {
+function Layout(props: { children: JSX.Element }) {
   const classes = useStyles();
   let location = useLocation();
   let history = useHistory();
+  const { authenticated } = useAppSelector(state => state.auth)
 
   const mainListItems = (
     <Box className={classes.ListContainer}>
-      {privateRoutes
-        .filter(route => props.isAuthenticated && route.privateRoute && location.pathname !== 'login')
+      {appArray
+        .filter(route => location.pathname !== 'login')
         .map((route, index) => {
-          const { buttonTitle, pathname, Icon } = route;
+          const { buttonTitle, baseRoute, Icon } = route;
           return (
             <Tooltip title={buttonTitle ?? ""} aria-label={buttonTitle} key={index}>
-              <ListItem className={classes.ListItem} button onClick={() => history.push(pathname)} selected={location.pathname.startsWith(pathname)}>
+              <ListItem className={classes.ListItem} button onClick={() => history.push(baseRoute)} selected={location.pathname.startsWith(baseRoute)}>
                 {Icon && <Icon />}
               </ListItem>
             </Tooltip>
@@ -73,18 +72,16 @@ function Layout(props: PrivateRouteProps) {
 
   return (
     <div className={classes.body}>
-      <CssBaseline />
       <Divider />
-      <List className={classes.navBar}>{mainListItems}</List>
+      {authenticated && <List className={classes.navBar}>{mainListItems}</List>}
       <Divider />
       <main className={classes.content}>
-        {props.isAuthenticated && <TopBar {...props} />}
+        {authenticated && <TopBar {...props} />}
         {props.children &&
           <Container maxWidth="xl" className={classes.container}>
             {props.children}
           </Container>
         }
-        <Footer />
       </main>
     </div>
   )

@@ -10,12 +10,9 @@ import { Redirect } from 'react-router';
 import { Grid, Typography } from '@material-ui/core';
 import useQuery from '../../helpers/useQuery'
 import * as settings from '../../settings';
-import { useStyles } from './Login'
+import { useStyles } from './styles'
 import ValidationMessages from '../../helpers/ValidationMessages'
 import { APP_NAME } from '../../settings';
-
-
-
 
 export const PasswordReset = () => {
 
@@ -24,7 +21,7 @@ export const PasswordReset = () => {
   const [tokenInvalid, setTokenInvalid] = useState<Boolean | null>(null);
 
   useEffect(() => {
-    axios.post(`${settings.API_SERVER}/api/password_reset/validate_token/`, { token: token })
+    axios.post(`/api/password_reset/validate_token/`, { token: token })
       .then((response: any) => {
         if (response.status === 200) {
           setTokenInvalid(false)
@@ -53,7 +50,7 @@ export const PasswordResetForm: React.FC<PasswordResetFormProps> = (props: Passw
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (password === passwordConfirmation) {
-      axios.post(`${settings.API_SERVER}/api/password_reset/confirm/`, { password: password, token: props.token })
+      axios.post(`/api/password_reset/confirm/`, { password: password, token: props.token })
         .then((response: any) => {
           if (response.status === 200) {
             setSubmitted(true)
@@ -70,6 +67,7 @@ export const PasswordResetForm: React.FC<PasswordResetFormProps> = (props: Passw
   }
 
   const handleFormFieldChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setValidationErrors({})
     switch (event.target.id) {
       case 'new-password': setPassword(event.target.value); break;
       case 'confirm-password': setPasswordConfirmation(event.target.value); break;

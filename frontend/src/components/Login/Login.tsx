@@ -1,83 +1,63 @@
-import React, { Dispatch, useState, useEffect } from 'react';
+import React, { useEffect } from 'react'
+import { useState } from 'react'
+import { Redirect, RouteComponentProps } from 'react-router-dom'
+import genericLogo from '../../generic_logo.png'
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-
-import { connect } from 'react-redux';
-import * as actions from '../../auth/authActions';
-
-import { useHistory, useLocation } from "react-router-dom";
-import { AppProps } from '../../App';
 import ValidationMessages from '../../helpers/ValidationMessages'
 import { Grid, LinearProgress, Link } from '@material-ui/core';
-import { APP_NAME } from '../../settings'
+import { useAppSelector, useAppDispatch } from '../../redux/hooks'
+import { login } from '../../redux/auth/authThunks'
 import { ForgotPassword } from './ForgotPassword'
+import axios from 'axios';
+import { motion, useAnimation } from "framer-motion";
+import { useStyles } from './styles'
+import { APP_NAME } from '../../settings';
 
-export const useStyles = makeStyles((theme) => ({
-  paper: {
-    marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
-    width: '100%',
-    marginTop: theme.spacing(1),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-  helper: {
-    margin: theme.spacing(1),
-  },
-  title: {
-    marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(2),
-    padding: theme.spacing(2), paddingLeft: theme.spacing(4),
-    color: theme.palette.primary.main,
-    fontWeight: 700
-  },
-}));
-
-interface LocationState {
-  from: {
-    pathname: string;
-  };
-}
-
-
-function Login(props: AppProps) {
+export function Login(props: RouteComponentProps<{}, any, { from: string }>) {
   const classes = useStyles();
   const [username, setuserName] = useState("");
   const [password, setPassword] = useState("");
   const [passwordReset, setPasswordReset] = useState(false);
   const [validationErrors, setValidationErrors] = useState<Record<string, string[]>>({})
   const [isLoading, setIsLoading] = useState(false)
+  const [imageStatus, setImageStatus] = useState<"loading" | "ready">("loading")
 
-  let history = useHistory();
-  let location = useLocation<LocationState>();
-  let { from } = location.state || { from: { pathname: "/" } };
-
-  useEffect(() => {
-    if (props.isAuthenticated) { history.replace(from) };
-  });
+  const logoAnimation = useAnimation()
+  const formAnimation = useAnimation()
 
   useEffect(() => {
-    setValidationErrors(props.error?.response?.data)
-    setIsLoading(false)
-  }, [props.error])
+    if (imageStatus === "ready") {
+      logoAnimation.start(input => ({
+        opacity: 1,
+        transition: {
+          ease: "easeIn",
+        }
+      }))
+      formAnimation.start(input => ({
+        opacity: 1,
+        y: -18,
+      }))
+    }
+  }, [imageStatus])
 
-  const handleFormFieldChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+
+  const dispatch = useAppDispatch()
+  const { authenticated } = useAppSelector(state => state.auth)
+
+  const { from } = props.location.state || { from: { pathname: "/" } };
+
+  if (authenticated) {
+    return (
+      <Redirect to={from} />
+    )
+  }
+
+  const handleFormFieldChange = (event: React.ChangeEvent<HTMLInputElement>): any => {
     switch (event.target.id) {
       case 'username': setuserName(event.target.value); break;
       case 'password': setPassword(event.target.value); break;
@@ -88,79 +68,87 @@ function Login(props: AppProps) {
 
   const handleSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
-    props.onAuth(username, password);
     setIsLoading(true)
+    dispatch(login({ username: username, password: password }))
+      .unwrap()
+      .catch(errorData => {
+        if (typeof (errorData) === "object") {
+          setValidationErrors(errorData)
+        } else {
+          setValidationErrors({ "unknown": ["There was an unknown error"] })
+        }
+      })
+      .finally(() => setIsLoading(false))
   }
 
   return (
-    <Container component="main" maxWidth="xs">
-      <Typography className={classes.title} align="center" variant="h2" color="textPrimary">{APP_NAME}</Typography>
-      <CssBaseline />
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          {passwordReset ? "Reset Password" : "Sign in"}
-        </Typography>
-        {passwordReset ? <ForgotPassword /> :
-          <form className={classes.form} noValidate onSubmit={handleSubmit}>
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="username"
-              label="User Name"
-              name="username"
-              autoComplete="username"
-              autoFocus
-              onChange={handleFormFieldChange}
-            />
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              onChange={handleFormFieldChange}
-            />
-            <ValidationMessages validationErrors={validationErrors} />
-            {isLoading && <LinearProgress color="secondary" />}
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-            >
-              Sign In
-          </Button>
-          </form>
-        }
-        <Grid container justify="center">
-          <Grid item xs={12}>
+    <div style={{ paddingTop: '10vh' }}>
+      <motion.div initial={{ opacity: 0 }} animate={logoAnimation} style={{ width: "100%", textAlign: "center" }}>
+        <img height="auto" width="10%" src={genericLogo} alt="Image not Found" onLoad={() => setImageStatus("ready")} onError={() => setImageStatus("ready")} />
+        <h1>{APP_NAME}</h1>
+      </motion.div>
+      <motion.div initial={{ opacity: 0 }} animate={formAnimation}>
+        <Container component="main" maxWidth="xs">
+          <div className={classes.paper}>
+            <Avatar className={classes.avatar}>
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              {passwordReset ? "Reset Password" : "Sign in"}
+            </Typography>
+            {passwordReset ? <ForgotPassword /> :
+              <form className={classes.form} noValidate onSubmit={handleSubmit}>
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="username"
+                  label="User Name"
+                  name="username"
+                  autoComplete="username"
+                  autoFocus
+                  onChange={handleFormFieldChange}
+                  // inputProps={{ style: { WebkitBoxShadow: "0 0 0 1000px #FFFFFF inset" } }}
+                />
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="password"
+                  label="Password"
+                  type="password"
+                  id="password"
+                  autoComplete="current-password"
+                  onChange={handleFormFieldChange}
+                  // inputProps={{ style: { WebkitBoxShadow: "0 0 0 1000px #FFFFFF inset" } }}
+                />
+                <ValidationMessages validationErrors={validationErrors} />
+                {isLoading && <LinearProgress color="secondary" />}
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  className={classes.submit}
+                >
+                  Sign In
+                </Button>
+              </form>
+            }
             <Grid container justify="center">
-              <Link onClick={() => setPasswordReset(!passwordReset)}>
-                {passwordReset ? 'Back to Login' : 'Forgot password?'}
-              </Link>
+              <Grid item xs={12}>
+                <Grid container justify="center">
+                  <Link onClick={() => setPasswordReset(!passwordReset)} style={{ cursor: "pointer" }}>
+                    {passwordReset ? 'Back to Login' : 'Forgot password?'}
+                  </Link>
+                </Grid>
+              </Grid>
             </Grid>
-          </Grid>
-        </Grid>
-      </div>
-    </Container>
-  );
+          </div>
+        </Container>
+      </motion.div>
+    </div>
+  )
 }
-
-
-const mapDispatchToProps = (dispatch: Dispatch<any>) => {
-  return {
-    onAuth: (username: string, password: string) => dispatch(actions.authLogin(username, password))
-  }
-}
-
-export default connect(null, mapDispatchToProps)(Login);

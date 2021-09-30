@@ -1,98 +1,109 @@
-import React, { Dispatch, useContext, useEffect } from 'react';
-import Router from './routes/Router';
-import Layout from './components/Layout/Layout';
-import { connect } from 'react-redux';
-import * as actions from './auth/authActions';
-import { PrivateRouteProps } from './routes/PrivateRoute';
-import { Dialog, DialogActions, DialogContent, DialogTitle, Snackbar, ThemeProvider } from '@material-ui/core';
-import { theme } from './Theme'
-import { AlertContext } from './contexts/AlertContext';
-import Alert from '@material-ui/lab/Alert';
-import { AxiosError } from './interfaces/axios/AxiosError'
-import { ThemeContext } from './contexts/ThemeContext';
-import { useLocation } from "react-router-dom";
-import { DialogContext } from './contexts/DialogContext';
+import React, { useContext, useEffect, useMemo, useState } from "react";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  useLocation,
+  Redirect,
+  useHistory,
+} from "react-router-dom";
+import axios from 'axios';
+import { ThemeProvider, CssBaseline, Snackbar, Dialog, DialogTitle, DialogContent, DialogActions } from "@material-ui/core";
 
+import { useAppSelector } from './redux/hooks';
+import { Login } from './components/Login/Login';
+import { appArray } from "./routes/Routes";
+import PrivateRoute from "./routes/PrivateRoute";
+import Layout from "./components/Layout/Layout";
+import Footer from "./components/Layout/Footer";
+import { theme } from "./Theme";
+import { DialogContext } from "./contexts/DialogContext";
+import { Alert } from "@material-ui/lab";
+import { AlertContext } from "./contexts/AlertContext";
+import PasswordUpdate from "./components/Login/PasswordUpdate";
+import PasswordReset from "./components/Login/PasswordReset";
 
-type Error = {
-  message: string
-  response: {
-    data: Record<string, string[]>
-  }
-}
-export interface AuthProps {
-  logout: Function
-  setAuthenticatedIfRequired: Function
-  onAuth: Function
-  token: string
-  error: Error
-}
-
-export interface AppProps extends AuthProps, PrivateRouteProps { }
-
-function App(props: AppProps) {
-
-  const { alertType, openAlert, alertMessage, handleAlertClose } = useContext(AlertContext);
+export function App() {
+  const location = useLocation();
+  const { authenticated } = useAppSelector(state => state.auth)
+  const { darkMode } = useAppSelector(state => state.darkMode)
+  const history = useHistory()
   const { showDialog, dialogTitle, dialogBody, dialogActions, handleDialogClose } = useContext(DialogContext);
-  const { darkMode } = useContext(ThemeContext);
-  const palletType = darkMode ? "dark" : "light"
-  const location = useLocation().pathname
+  const { alertType, openAlert, alertMessage, handleAlertClose } = useContext(AlertContext);
 
   useEffect(() => {
-    props.setAuthenticatedIfRequired();
-  }, [props]);
+    if (authenticated) {
+      axios.get('/api/auth/loggedin/')
+    }
+  }, [])
+
+  const publicRoutes = [
+    { path: "login", component: Login, exact: true },
+    { path: "password_reset", component: PasswordReset, exact: true }
+  ]
+
+  const atPublicRoute = publicRoutes.findIndex(route => location.pathname.includes(route.path)) !== -1
 
   useEffect(() => {
-    handleAlertClose()
-  }, [location])
+    // when un-authenticated, redirect to login (only for non-public routes)
+    if (!authenticated && !atPublicRoute) {
+      history.push({ pathname: "/login", state: { from: location } })
+    }
+  }, [authenticated, location.pathname])
+
+  const generateAppRoutes = () => {
+    return appArray
+      .map((app, index1) => {
+        let result = app.routes?.map((route, index2) => {
+          const key = `${index1}_${index2}`
+          return <PrivateRoute key={key} exact={route.exact} path={route.path} component={route.component} />;
+        })
+        return result
+      })
+  }
+
+  const privateRoutes = useMemo(() => generateAppRoutes(), []);
 
   return (
-    <div className="App">
-      <ThemeProvider theme={theme(palletType)}>
-        <Layout {...props} >
-          <Router {...props} />
-        </Layout>
-        <Snackbar id="appAlertSnackbar" open={openAlert} autoHideDuration={6000} onClose={handleAlertClose}>
-          <Alert variant="filled" onClose={handleAlertClose} severity={alertType}>
-            {alertMessage}
-          </Alert>
-        </Snackbar>
-        <Dialog maxWidth="md" fullWidth open={showDialog} onClose={handleDialogClose} aria-labelledby="alert-dialog-title">
-          <DialogTitle id="alert-dialog-title">{dialogTitle}</DialogTitle>
-          <DialogContent>
-            {dialogBody}
-          </DialogContent>
-          <DialogActions>
-            {dialogActions}
-          </DialogActions>
-        </Dialog>
-      </ThemeProvider>
-    </div>
-  );
+    <ThemeProvider theme={theme(darkMode ? "dark" : "light")}>
+      <CssBaseline />
+      <Snackbar id="appAlertSnackbar" open={openAlert} autoHideDuration={6000} onClose={handleAlertClose}>
+        <Alert variant="filled" onClose={handleAlertClose} severity={alertType}>
+          {alertMessage}
+        </Alert>
+      </Snackbar>
+      <Dialog maxWidth="md" fullWidth open={showDialog} onClose={handleDialogClose} aria-labelledby="alert-dialog-title">
+        <DialogTitle id="alert-dialog-title">{dialogTitle}</DialogTitle>
+        <DialogContent>
+          {dialogBody}
+        </DialogContent>
+        <DialogActions>
+          {dialogActions}
+        </DialogActions>
+      </Dialog>
+      <Layout>
+        <div className={atPublicRoute ? "" : "content-wrap"}>
+          <div className={atPublicRoute ? "" : "container-fluid body main_container"}>
+            <Switch>
+              {publicRoutes.map((route, index) =>
+                <Route key={index} component={route.component} path={"/" + route.path} exact={route.exact} />
+              )}
+              {privateRoutes}
+              <PrivateRoute component={PasswordUpdate} path={"/change_password"}/>
+              <Redirect from="/" to={"/home"} />
+            </Switch>
+          </div>
+        </div>
+      </Layout>
+      <Footer />
+    </ThemeProvider>
+  )
 }
 
-interface MapStateToPropsInterface {
-  auth: {
-    token: string,
-    error: AxiosError
-  }
+export function MainPage() {
+  return (
+    <Router>
+      <App />
+    </Router>
+  )
 }
-
-//This means that one or more of the redux states in the store are available as props
-const mapStateToProps = (state: MapStateToPropsInterface) => {
-  return {
-    isAuthenticated: state.auth.token !== null && typeof state.auth.token !== 'undefined',
-    token: state.auth.token,
-    error: state.auth.error
-  }
-}
-
-//This means that one or more of the redux actions in the form of dispatch(action) combinations are available as props
-const mapDispatchToProps = (dispatch: Dispatch<any>) => {
-  return {
-    setAuthenticatedIfRequired: () => dispatch(actions.authCheckState()),
-    logout: () => dispatch(actions.authLogout())
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
