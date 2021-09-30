@@ -9,7 +9,6 @@ import axios from 'axios';
 import { Redirect } from 'react-router';
 import { Grid, Typography } from '@material-ui/core';
 import useQuery from '../../helpers/useQuery'
-import * as settings from '../../settings';
 import { useStyles } from './styles'
 import ValidationMessages from '../../helpers/ValidationMessages'
 import { APP_NAME } from '../../settings';
@@ -63,6 +62,8 @@ export const PasswordResetForm: React.FC<PasswordResetFormProps> = (props: Passw
           }
         }
         )
+    } else {
+      setValidationErrors({ "error": ["Passwords do not match!"] })
     }
   }
 
@@ -76,7 +77,6 @@ export const PasswordResetForm: React.FC<PasswordResetFormProps> = (props: Passw
   };
 
   const classes = useStyles();
-  const passwordsMatch = password === passwordConfirmation
 
   return (
     <Container component="main" maxWidth="xs">
@@ -89,7 +89,7 @@ export const PasswordResetForm: React.FC<PasswordResetFormProps> = (props: Passw
               className={classes.helper}
             >
               Please enter a new password.
-							</FormHelperText>
+            </FormHelperText>
             <TextField
               margin="normal"
               variant="outlined"
@@ -102,8 +102,6 @@ export const PasswordResetForm: React.FC<PasswordResetFormProps> = (props: Passw
               autoComplete="off"
               autoFocus
               onChange={handleFormFieldChange}
-              error={!passwordsMatch}
-              helperText={!passwordsMatch ? "Passwords do not match" : null}
             />
             <TextField
               margin="normal"
@@ -116,8 +114,6 @@ export const PasswordResetForm: React.FC<PasswordResetFormProps> = (props: Passw
               id="confirm-password"
               autoComplete="off"
               onChange={handleFormFieldChange}
-              error={!passwordsMatch}
-              helperText={!passwordsMatch ? "Passwords do not match" : null}
             />
           </>}
         <ValidationMessages validationErrors={validationErrors} />
@@ -128,7 +124,6 @@ export const PasswordResetForm: React.FC<PasswordResetFormProps> = (props: Passw
             fullWidth
             variant="contained"
             color="primary"
-            disabled={password !== passwordConfirmation}
             className={classes.submit}
           >
             Submit

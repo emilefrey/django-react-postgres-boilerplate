@@ -30,13 +30,7 @@ export function App() {
   const history = useHistory()
   const { showDialog, dialogTitle, dialogBody, dialogActions, handleDialogClose } = useContext(DialogContext);
   const { alertType, openAlert, alertMessage, handleAlertClose } = useContext(AlertContext);
-
-  useEffect(() => {
-    if (authenticated) {
-      axios.get('/api/auth/loggedin/')
-    }
-  }, [])
-
+  
   const publicRoutes = [
     { path: "login", component: Login, exact: true },
     { path: "password_reset", component: PasswordReset, exact: true }

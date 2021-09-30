@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import axios, { AxiosRequestConfig } from 'axios';
-import * as settings from '../../settings';
+import axios from 'axios';
 
 import { makeStyles } from '@material-ui/core/styles';
 import { Avatar, Button, Container, LinearProgress, TextField, Typography } from '@material-ui/core';
@@ -43,8 +42,6 @@ function PasswordUpdate() {
   const [isLoading, setIsLoading] = useState(false)
 
   const { token } = useAppSelector(state => state.auth)
-
-
   const handleFormFieldChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSuccess(false);
     switch (event.target.id) {
@@ -65,26 +62,25 @@ function PasswordUpdate() {
       setValidationErrors({ "error": ["Password can't be blank!"] })
     }
     else {
-      let headers = { 'Authorization': `Token ${token}` };
-      const method = 'POST';
       let url = '/api/auth/change_password/';
       let passwordFormData = new FormData();
       passwordFormData.append("old_password", oldPassword);
       passwordFormData.append("new_password1", new_password1);
       passwordFormData.append("new_password2", new_password2);
-      let config: AxiosRequestConfig = { headers, method, url, data: passwordFormData };
       //Axios update_password API call
-      axios(config).then((res: any) => {
-        setSuccess(true);
-      }).catch(
-        (error: PasswordUpdateError) => {
-          setValidationErrors(error?.response?.data)
+
+      axios.post(url, passwordFormData)
+        .then(() => {
+          setSuccess(true)
         })
+        .catch(
+          (error: PasswordUpdateError) => {
+            setValidationErrors(error?.response?.data)
+          })
     }
     setIsLoading(false)
   }
 
-  const passwordsMatch = new_password1 === new_password2
 
   return (
     <Container component="main" maxWidth="xs">
@@ -120,8 +116,6 @@ function PasswordUpdate() {
                 type="password"
                 id="new_password1"
                 onChange={handleFormFieldChange}
-                error={!passwordsMatch}
-                helperText={!passwordsMatch ? "Passwords do not match" : null}
               />
               <TextField
                 variant="outlined"
@@ -133,8 +127,6 @@ function PasswordUpdate() {
                 type="password"
                 id="new_password2"
                 onChange={handleFormFieldChange}
-                error={!passwordsMatch}
-                helperText={!passwordsMatch ? "Passwords do not match" : null}
               />
               <ValidationMessages validationErrors={validationErrors} />
               {isLoading && <LinearProgress color="secondary" />}
