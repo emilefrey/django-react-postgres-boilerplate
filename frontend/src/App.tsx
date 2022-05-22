@@ -7,7 +7,6 @@ import {
   Redirect,
   useHistory,
 } from "react-router-dom";
-import axios from 'axios';
 import { ThemeProvider, CssBaseline, Snackbar, Dialog, DialogTitle, DialogContent, DialogActions } from "@material-ui/core";
 
 import { useAppSelector } from './redux/hooks';
@@ -96,6 +95,7 @@ export function App() {
 
 export function MainPage() {
   return (
+    //@ts-ignore - TODO: NEED TO FIGURE OUT TS ERROR HERE
     <Router>
       <App />
     </Router>
