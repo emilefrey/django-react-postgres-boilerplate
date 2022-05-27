@@ -85,7 +85,7 @@ export function Login(props: RouteComponentProps<{}, any, { from: string }>) {
     <div style={{ paddingTop: '10vh' }}>
       <motion.div initial={{ opacity: 0 }} animate={logoAnimation} style={{ width: "100%", textAlign: "center" }}>
         <img height="auto" width="10%" src={genericLogo} alt="Image not Found" onLoad={() => setImageStatus("ready")} onError={() => setImageStatus("ready")} />
-        <h1>{APP_NAME}</h1>
+        <Typography variant='h4' color='textSecondary'>{APP_NAME}</Typography>
       </motion.div>
       <motion.div initial={{ opacity: 0 }} animate={formAnimation}>
         <Container component="main" maxWidth="xs">
@@ -133,7 +133,10 @@ export function Login(props: RouteComponentProps<{}, any, { from: string }>) {
                   color="primary"
                   className={classes.submit}
                 >
+                  <Typography variant='subtitle2'>
                   Sign In
+                  </Typography>
+
                 </Button>
               </form>
             }
@@ -141,7 +144,7 @@ export function Login(props: RouteComponentProps<{}, any, { from: string }>) {
               <Grid item xs={12}>
                 <Grid container justify="center">
                   <Link onClick={() => setPasswordReset(!passwordReset)} style={{ cursor: "pointer" }}>
-                    {passwordReset ? 'Back to Login' : 'Forgot password?'}
+                    <Typography>{passwordReset ? 'Back to Login' : 'Forgot password?'}</Typography>
                   </Link>
                 </Grid>
               </Grid>

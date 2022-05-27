@@ -14,7 +14,6 @@ import { Login } from './components/Login/Login';
 import { appArray } from "./routes/Routes";
 import PrivateRoute from "./routes/PrivateRoute";
 import Layout from "./components/Layout/Layout";
-import Footer from "./components/Layout/Footer";
 import { theme } from "./Theme";
 import { DialogContext } from "./contexts/DialogContext";
 import { Alert } from "@material-ui/lab";
@@ -88,14 +87,13 @@ export function App() {
           </div>
         </div>
       </Layout>
-      <Footer />
     </ThemeProvider>
   )
 }
 
 export function MainPage() {
   return (
-    //@ts-ignore - TODO: NEED TO FIGURE OUT TS ERROR HERE
+    //@ts-ignore - TODO: NEED TO ADDRESS TS ERROR HERE
     <Router>
       <App />
     </Router>

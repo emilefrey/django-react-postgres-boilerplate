@@ -11,7 +11,7 @@ You shouldn't have to make any other changes to get this up and running, but her
 
 - The default login credentials are admin and admin_password. These can be changed in backend/.env.
 
-- There are 3 .env files provided. Note in particular the .env files in backend/ and postgres/; there, you can adjust the database credentials, debug mode, secret key, allowed hosts, etc. Things should run just fine without any changes, but just know these files are there.
+- There are 3 .env files provided. Note in particular the .env files in backend/ and postgres/; there, you can adjust the database credentials, debug mode, secret key, allowed hosts, etc. The app should run just fine without any changes, but just know these files are there.
 
 - The included sample helloyou django app can be easily removed by removing 'helloyou' from INSTALLED_APPS in django mainapp/settings.py, removing the associated helloyou path in mainapp/urls.py and deleting the entire helloyou folder. There are no database migrations, so you don't need to worry about that. On the frontend, delete/replace the contents of Home.tsx.
 
@@ -20,28 +20,21 @@ You shouldn't have to make any other changes to get this up and running, but her
 
 **_NOTE: If you change your database name/credentials, but have already run the steps below, you may need to delete the associated postgres docker image in order to get things to work._**
 
-For development mode without NGINX server, run the following command:
+For development mode without NGINX server (recommended for development), run the following command:
 
 ```sh
 docker-compose -f "docker-compose.dev.yml" up -d --build
 ```
 The react frontend should be available at `http://localhost:3000/` and django backend at `http://localhost:8000/` (django admin at `http://localhost:8000/admin/`). This mode supports both react hot reloading and django auto-refresh with changes.
 
-For development with the NGINX server run:
-```sh
-docker-compose -f "docker-compose.yml" up -d --build
-```
-The server should be available at `http://127.0.0.1/`. This mode will not hot reload since it's running a production build (npm build).
-
-
 ## Features
 ### Forgot Password:
-- The password reset feature is fully functional. In order to get the password reset url, you will need to open the backend django console. Enter the following in an application like PowerShell:
+- The password reset feature is fully functional. In order to get the password reset url, you will need to open the backend django logs. For example (in Powershell):
     ```sh
-    $id = $(docker ps -aqf "name=django-react-postgres-boilerplate_backend")
+    $id = $(docker ps -aqf "name=backend")
     docker logs --tail 1000 -f $id
     ```
-- Upon submitting a valid email, you should get a path like `http://localhost:3000/password_reset?token=abcdefgxyz123`; paste this in your browser to access the password reset form. The password reset form first validates the token; if the token is valid, it presents the password reset interface and allows the user to provide a new password. If the token is invalid, it will redirect the user to the login page.
+- Upon submitting a valid email (default is ), you should get a path like `http://localhost:3000/password_reset?token=abcdefgxyz123`; paste this in your browser to access the password reset form. The password reset form first validates the token; if the token is valid, it presents the password reset interface and allows the user to provide a new password. If the token is invalid, it will redirect the user to the login page.
 
     Check out the Django docs starting [here](https://docs.djangoproject.com/en/3.1/topics/email/#smtp-backend) in order to update the Email Backend from a console output to an actual SMTP backend.
 
@@ -53,7 +46,8 @@ The server should be available at `http://127.0.0.1/`. This mode will not hot re
   
 ### Alerts:
 - An alert setter at the context level is also included. An example of TriggerAlert is shown in Home.tsx (variants displayed after successful/failed submit). See AlertContext.tsx for typings.
-- 
+
+
 ### Modal/Dialog:
 - Similar to the alert setter, a context level modal/dialog is also provided. Use OpenDialog (basic example shown in Home.tsx) to open and set the modal title/contents/footer.
 
@@ -79,10 +73,10 @@ The server should be available at `http://127.0.0.1/`. This mode will not hot re
 - [x] Add support for nested sub-routes off the main left-nav routes
 - [x] Ensure match params (i.e. /user/profile/1/) work correctly.
 - [x] Context level modal?
+- [x] Auto redirect to login with Failed Request
 - [ ] Reset session timeout with activity.
 - [ ] Swagger API Explorer
 - [ ] Backend Testing
 - [ ] Frontend Testing (React Testing Library)
-- [ ] Auto redirect to login with Failed Request
 - [ ] Axios Interface for demo API
 - [ ] Update and Pin versions (remove anything unused)

@@ -13,7 +13,7 @@ export const ForgotPassword = () => {
 	const submitEmail = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		if (emailInput.current !== null) {
-			axios.post(`/api/password_reset/reset_password/`, { email: emailInput.current.value })
+			axios.post(`/api/password_reset/`, { email: emailInput.current.value })
 				.then((response: any) => {
 					setSubmitted(true)
 					if (response.status === 200) {
