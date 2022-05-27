@@ -59,7 +59,7 @@ function Home(props: RouteComponentProps) {
   return (
     <Container fixed className={classes.container}>
       <Grid container spacing={3}>
-        <Grid item xs={6}>
+        <Grid item xs={12} lg={6}>
           <Paper className={classes.textInput}>
             <Typography variant="h6">
               Enter your name:
@@ -83,7 +83,7 @@ function Home(props: RouteComponentProps) {
             </Tooltip>
           </Paper>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} lg={6}>
           <Paper className={classes.title}>
             <Typography variant="h6">
               Backend Response: <span>&nbsp;</span>
@@ -93,7 +93,7 @@ function Home(props: RouteComponentProps) {
             </Typography>
           </Paper>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} lg={6}>
           <Paper className={classes.textInput}>
             <Typography variant="h6">
               Test Panel:
