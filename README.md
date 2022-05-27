@@ -17,10 +17,7 @@ You shouldn't have to make any other changes to get the app up and running, but 
 
 ## Running
 
-
-**_NOTE: If you change your database name/credentials, but have already run the steps below, you may need to delete the associated postgres docker image in order to get things to work._**
-
-For development mode without NGINX server (recommended for development), run the following command:
+Run the following command:
 
 ```sh
 docker-compose -f "docker-compose.dev.yml" up -d --build
