@@ -46,7 +46,7 @@ function Home(props: RouteComponentProps) {
     axios.post('/api/helloyou/', data)
       .then(response => {
         setHelloName(response.data["response"])
-        TriggerAlert("Success!", "success")
+        TriggerAlert("Successful API Request!", "success")
       })
       .catch(
         (error: any) => { TriggerAlert(error.message, "error") })

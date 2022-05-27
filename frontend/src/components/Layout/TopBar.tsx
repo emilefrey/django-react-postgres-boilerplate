@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { AppBar, IconButton, Toolbar, Tooltip, Typography } from '@material-ui/core';
 import { APP_NAME } from '../../settings'
@@ -51,7 +51,6 @@ export default function TopBar(props: any) {
           </DropdownMenu>
         )
         }
-
       </Toolbar>
     </AppBar>
   );

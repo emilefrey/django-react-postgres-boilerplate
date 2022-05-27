@@ -7,7 +7,7 @@ Install Docker Desktop
 
 **_Make sure backend\entrypoint.sh has LF format and not CRLF format_**
 
-You shouldn't have to make any other changes to get this up and running, but here's some things to note:
+You shouldn't have to make any other changes to get the app up and running, but here's some things to note:
 
 - The default login credentials are admin and admin_password. These can be changed in backend/.env.
 
@@ -25,7 +25,7 @@ For development mode without NGINX server (recommended for development), run the
 ```sh
 docker-compose -f "docker-compose.dev.yml" up -d --build
 ```
-The react frontend should be available at `http://localhost:3000/` and django backend at `http://localhost:8000/` (django admin at `http://localhost:8000/admin/`). This mode supports both react hot reloading and django auto-refresh with changes.
+The react frontend should be available at `http://localhost:3000/` and django backend at `http://localhost:8000/` (django admin at `http://localhost:8000/admin/`).
 
 ## Features
 ### Forgot Password:
@@ -34,7 +34,7 @@ The react frontend should be available at `http://localhost:3000/` and django ba
     $id = $(docker ps -aqf "name=backend")
     docker logs --tail 1000 -f $id
     ```
-- Upon submitting a valid email (default is ), you should get a path like `http://localhost:3000/password_reset?token=abcdefgxyz123`; paste this in your browser to access the password reset form. The password reset form first validates the token; if the token is valid, it presents the password reset interface and allows the user to provide a new password. If the token is invalid, it will redirect the user to the login page.
+- Upon submitting a valid email (default is admin@example.com), you should get a path like `http://localhost:3000/password_reset?token=abcdefgxyz123`; paste this in your browser to access the password reset form. The password reset form first validates the token; if the token is valid, it presents the password reset interface and allows the user to provide a new password. If the token is invalid, it will redirect the user to the login page.
 
     Check out the Django docs starting [here](https://docs.djangoproject.com/en/3.1/topics/email/#smtp-backend) in order to update the Email Backend from a console output to an actual SMTP backend.
 

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useMemo, useState } from "react";
+import React, { useContext, useEffect, useMemo } from "react";
 import {
   BrowserRouter as Router,
   Switch,
@@ -7,7 +7,14 @@ import {
   Redirect,
   useHistory,
 } from "react-router-dom";
-import { ThemeProvider, CssBaseline, Snackbar, Dialog, DialogTitle, DialogContent, DialogActions } from "@material-ui/core";
+import { 
+  ThemeProvider, 
+  CssBaseline, 
+  Snackbar, 
+  Dialog, 
+  DialogTitle, 
+  DialogContent, 
+  DialogActions } from "@material-ui/core";
 
 import { useAppSelector } from './redux/hooks';
 import { Login } from './components/Login/Login';

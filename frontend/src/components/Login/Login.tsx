@@ -13,7 +13,6 @@ import { Grid, LinearProgress, Link } from '@material-ui/core';
 import { useAppSelector, useAppDispatch } from '../../redux/hooks'
 import { login } from '../../redux/auth/authThunks'
 import { ForgotPassword } from './ForgotPassword'
-import axios from 'axios';
 import { motion, useAnimation } from "framer-motion";
 import { useStyles } from './styles'
 import { APP_NAME } from '../../settings';
@@ -109,7 +108,6 @@ export function Login(props: RouteComponentProps<{}, any, { from: string }>) {
                   autoComplete="username"
                   autoFocus
                   onChange={handleFormFieldChange}
-                  // inputProps={{ style: { WebkitBoxShadow: "0 0 0 1000px #FFFFFF inset" } }}
                 />
                 <TextField
                   variant="outlined"
@@ -122,7 +120,6 @@ export function Login(props: RouteComponentProps<{}, any, { from: string }>) {
                   id="password"
                   autoComplete="current-password"
                   onChange={handleFormFieldChange}
-                  // inputProps={{ style: { WebkitBoxShadow: "0 0 0 1000px #FFFFFF inset" } }}
                 />
                 <ValidationMessages validationErrors={validationErrors} />
                 {isLoading && <LinearProgress color="secondary" />}
@@ -134,9 +131,8 @@ export function Login(props: RouteComponentProps<{}, any, { from: string }>) {
                   className={classes.submit}
                 >
                   <Typography variant='subtitle2'>
-                  Sign In
+                    Sign In
                   </Typography>
-
                 </Button>
               </form>
             }

@@ -2,7 +2,6 @@ import React, { useRef, useState } from 'react'
 import { FormHelperText, Button, TextField } from '@material-ui/core';
 import axios from 'axios';
 import { useStyles } from './styles'
-import * as settings from '../../settings';
 
 export const ForgotPassword = () => {
 	const emailInput = useRef<HTMLInputElement>(null);

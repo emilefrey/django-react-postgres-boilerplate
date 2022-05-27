@@ -12,7 +12,7 @@ interface MatchRouteProps extends RouteComponentProps<MatchParams> {
 const Placeholder = (props: MatchRouteProps) => {
   return (
     <div style={{ textAlign: "center" }}>
-      <Typography variant="h5" style={{ margin: 20 }}>The user input detected by the route is: {props.match.params.userinput}</Typography>
+      <Typography variant="h5" style={{ margin: 20 }} color="textSecondary">The user input detected by the route is: {props.match.params.userinput}</Typography>
       <Button variant="contained" color="primary" onClick={() => props.history.push('/home')}>Back Home</Button>
     </div>
   )
